@@ -1,0 +1,38 @@
+In this task, you are responsible for grading your fellow students based on their understanding and practical skills related to different electronic components and their applications. Their skills will be demonstrated through a presentation. For each student, you should mark them based on their understanding of when and how to use specific electronic components, their ability to connect these components, their knowledge about the directionality of components like LEDs, higher-level skills such as powering and connecting signals to IC-Music, and their understanding of the importance of a closed circuit.
+The skills to be evaluated are:
+
+*   Piece Picking Skills
+    *  (Skill 1) When a LED should be used
+    *  (Skill 2) When a FM Radio receiver should be used
+    *  (Skill 3) A Buzzrer should be used
+    *  (Skill 4) A Switch should be used
+    *  (Skill 5) A Reed Switch should be used
+    *  (Skill 6) A Push Button Switch should be used
+    *  (Skill 7) A Lamp should be used
+    *  (Skill 8) A Battery should be used
+    *  (Skill 9) A Speaker should be used
+    *  (Skill 10) A IC-Music should be used
+    *  (Skill 11) A Motor should be used
+*   Piece connecting skills
+    *  (skill 12) How to Connect two pieces together
+*   LED direction skills
+    *  (skill 13) The correct directionality of an LED
+*   High level skills
+    *  (skill 14) How to power an MC
+    *  (skill 15) How to power an FM
+    *  (skill 16) How to change the signal on the FM
+*   Closing skills
+    *  (skill 17) That the circuit should be a circuit
+*   Gate skills
+    *  (skill 18) How to create an AND gate
+    *  (skill 19) How to create an OR gate
+    *  (skill 20) How to create an NOT gate
+
+Through their conversation, please tell me if they apply certain skill independently or doing them together. If they apply certain skill together, please tell me their contribution to this skill in terms of percentage and tell me the reason.
+An example output should be:
+speaker 1 : skill 1 100%
+            skill 7 30%
+speaker 2 : skill 16 100%
+            skill 7 70%
+if you think that A applies skill 1 independently and then contribute to skill 7 for about 30% and B contribute to skill 7 for about 70% and independently applies the skill 16. All other skills that not be mentioned during their conversation may not be generated in the final output.
+

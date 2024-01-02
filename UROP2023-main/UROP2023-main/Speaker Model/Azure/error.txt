@@ -1,0 +1,216 @@
+In file included from include/cxx_api/speechapi_cxx.h:30,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:453:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  453 |         return [=](const EventSignal<const SessionEventArgs&>& sessionEvent) { this->SessionEventConnectionsChanged(sessionEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:453:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:458:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  458 |         return [=](const EventSignal<const RecoEventArgs&>& recoEvent) { this->RecoEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:458:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:463:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  463 |         return [=](const EventSignal<const RecoCanceledEventArgs&>& recoEvent) { this->RecoCanceledEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:463:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:468:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  468 |         return [=](const EventSignal<const RecognitionEventArgs&>& recoEvent) { this->RecognitionEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_recognition_async_recognizer.h:468:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx.h:52,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_translation_recognizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_translation_recognizer.h:313:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  313 |         return [=](const EventSignal<const TranslationSynthesisEventArgs&>& audioEvent) {
+      |                ^
+include/cxx_api/speechapi_cxx_translation_recognizer.h:313:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx.h:68,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_dialog_service_connector.h: In lambda function:
+include/cxx_api/speechapi_cxx_dialog_service_connector.h:306:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  306 |         return [=](const EventSignal<const T&>& evt)
+      |                ^
+include/cxx_api/speechapi_cxx_dialog_service_connector.h:306:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx_connection.h:14,
+                 from include/cxx_api/speechapi_cxx.h:70,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_speech_synthesizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:610:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  610 |         return [=](const EventSignal<const SpeechSynthesisEventArgs&>& eventSignal) {
+      |                ^
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:610:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_speech_synthesizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:632:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  632 |         return [=](const EventSignal<const SpeechSynthesisWordBoundaryEventArgs&>& eventSignal) {
+      |                ^
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:632:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_speech_synthesizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:642:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  642 |         return [=](const EventSignal<const SpeechSynthesisVisemeEventArgs&>& eventSignal) {
+      |                ^
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:642:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_speech_synthesizer.h: In lambda function:
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:652:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  652 |         return [=](const EventSignal<const SpeechSynthesisBookmarkEventArgs&>& eventSignal) {
+      |                ^
+include/cxx_api/speechapi_cxx_speech_synthesizer.h:652:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx.h:70,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_connection.h: In lambda function:
+include/cxx_api/speechapi_cxx_connection.h:339:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  339 |         return [=](const EventSignal<const ConnectionEventArgs&>& connectionEvent) { this->ConnectionEventConnectionsChanged(connectionEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_connection.h:339:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_connection.h: In lambda function:
+include/cxx_api/speechapi_cxx_connection.h:344:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  344 |         return [=](const EventSignal<const ConnectionMessageEventArgs&>& connectionEvent) { this->ConnectionMessageEventConnectionsChanged(connectionEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_connection.h:344:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx.h:89,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_conversation_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:483:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  483 |         return [=](const EventSignal<const SessionEventArgs&>& sessionEvent) { this->SessionEventConnectionsChanged(sessionEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:483:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_conversation_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:488:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  488 |         return [=](const EventSignal<const ConversationTranscriptionEventArgs&>& recoEvent) { this->RecoEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:488:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_conversation_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:493:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  493 |         return [=](const EventSignal<const ConversationTranscriptionCanceledEventArgs&>& recoEvent) { this->RecoCanceledEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:493:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_conversation_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:498:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  498 |         return [=](const EventSignal<const RecognitionEventArgs&>& recoEvent) { this->RecognitionEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_conversation_transcriber.h:498:16: note: add explicit ‘this’ or ‘*this’ capture
+In file included from include/cxx_api/speechapi_cxx.h:93,
+                 from main.cpp:4:
+include/cxx_api/speechapi_cxx_meeting_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:442:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  442 |         return [=](const EventSignal<const SessionEventArgs&>& sessionEvent) { this->SessionEventConnectionsChanged(sessionEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:442:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_meeting_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:447:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  447 |         return [=](const EventSignal<const MeetingTranscriptionEventArgs&>& recoEvent) { this->RecoEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:447:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_meeting_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:452:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  452 |         return [=](const EventSignal<const MeetingTranscriptionCanceledEventArgs&>& recoEvent) { this->RecoCanceledEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:452:16: note: add explicit ‘this’ or ‘*this’ capture
+include/cxx_api/speechapi_cxx_meeting_transcriber.h: In lambda function:
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:457:16: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+  457 |         return [=](const EventSignal<const RecognitionEventArgs&>& recoEvent) { this->RecognitionEventConnectionsChanged(recoEvent); };
+      |                ^
+include/cxx_api/speechapi_cxx_meeting_transcriber.h:457:16: note: add explicit ‘this’ or ‘*this’ capture
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `__azac_handle_native_ex(unsigned long, bool)':
+main.cpp:(.text._Z23__azac_handle_native_exmb[_Z23__azac_handle_native_exmb]+0x40): undefined reference to `error_get_error_code'
+/usr/bin/ld: main.cpp:(.text._Z23__azac_handle_native_exmb[_Z23__azac_handle_native_exmb]+0x9b): undefined reference to `error_get_call_stack'
+/usr/bin/ld: main.cpp:(.text._Z23__azac_handle_native_exmb[_Z23__azac_handle_native_exmb]+0xab): undefined reference to `error_get_message'
+/usr/bin/ld: main.cpp:(.text._Z23__azac_handle_native_exmb[_Z23__azac_handle_native_exmb]+0x139): undefined reference to `error_release'
+/usr/bin/ld: main.cpp:(.text._Z23__azac_handle_native_exmb[_Z23__azac_handle_native_exmb]+0x1bb): undefined reference to `error_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Utils::CopyAndFreePropertyString(char const*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech5UtilsL25CopyAndFreePropertyStringEPKc[_ZNK9Microsoft17CognitiveServices6Speech18PropertyCollection11GetPropertyERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_]+0x67): undefined reference to `property_bag_free_string'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::SpeechConfig::FromSubscription(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech12SpeechConfig16FromSubscriptionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_[_ZN9Microsoft17CognitiveServices6Speech12SpeechConfig16FromSubscriptionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_]+0x96): undefined reference to `speech_config_from_subscription'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::SpeechConfig::~SpeechConfig()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech12SpeechConfigD2Ev[_ZN9Microsoft17CognitiveServices6Speech12SpeechConfigD5Ev]+0x2a): undefined reference to `speech_config_release'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech12SpeechConfigD2Ev[_ZN9Microsoft17CognitiveServices6Speech12SpeechConfigD5Ev]+0x3a): undefined reference to `property_bag_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::SpeechConfig::SpeechConfig(_azac_empty*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech12SpeechConfigC2EP11_azac_empty[_ZN9Microsoft17CognitiveServices6Speech12SpeechConfigC5EP11_azac_empty]+0x41): undefined reference to `speech_config_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::PropertyCollection::~PropertyCollection()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech18PropertyCollectionD2Ev[_ZN9Microsoft17CognitiveServices6Speech18PropertyCollectionD5Ev]+0x1b): undefined reference to `property_bag_is_valid'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech18PropertyCollectionD2Ev[_ZN9Microsoft17CognitiveServices6Speech18PropertyCollectionD5Ev]+0x2e): undefined reference to `property_bag_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::PropertyCollection::GetProperty(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const':
+main.cpp:(.text._ZNK9Microsoft17CognitiveServices6Speech18PropertyCollection11GetPropertyERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_[_ZNK9Microsoft17CognitiveServices6Speech18PropertyCollection11GetPropertyERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_]+0x92): undefined reference to `property_bag_get_string'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Audio::AudioConfig::FromDefaultMicrophoneInput()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfig26FromDefaultMicrophoneInputEv[_ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfig26FromDefaultMicrophoneInputEv]+0x32): undefined reference to `audio_config_create_audio_input_from_default_microphone'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Audio::AudioConfig::~AudioConfig()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfigD2Ev[_ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfigD5Ev]+0x2a): undefined reference to `property_bag_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Audio::AudioConfig::AudioConfig(_azac_empty*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfigC2EP11_azac_empty[_ZN9Microsoft17CognitiveServices6Speech5Audio11AudioConfigC5EP11_azac_empty]+0x79): undefined reference to `audio_config_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::RecognitionResult::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech17RecognitionResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech17RecognitionResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `result_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::RecognitionResult::~RecognitionResult()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResultD2Ev[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResultD5Ev]+0x2a): undefined reference to `recognizer_result_handle_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::RecognitionResult::PopulateResultFields(_azac_empty*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, Microsoft::CognitiveServices::Speech::ResultReason*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_]+0xb5): undefined reference to `result_get_result_id'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_]+0x147): undefined reference to `result_get_reason'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_]+0x1b2): undefined reference to `result_get_text'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_]+0x241): undefined reference to `result_get_offset'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_[_ZN9Microsoft17CognitiveServices6Speech17RecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonESB_]+0x28f): undefined reference to `result_get_duration'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognitionResult::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `result_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognitionResult::~SpeakerRecognitionResult()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResultD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResultD5Ev]+0x1b): undefined reference to `recognizer_result_handle_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognitionResult::PopulateResultFields(_azac_empty*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, Microsoft::CognitiveServices::Speech::ResultReason*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0xae): undefined reference to `result_get_result_id'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerRecognitionResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0x140): undefined reference to `result_get_reason'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile::~VoiceProfile()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfileD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfileD5Ev]+0x2a): undefined reference to `voice_profile_release_handle'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile::GetId[abi:cxx11]() const':
+main.cpp:(.text._ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile5GetIdB5cxx11Ev[_ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile5GetIdB5cxx11Ev]+0x40): undefined reference to `voice_profile_get_id'
+/usr/bin/ld: main.cpp:(.text._ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile5GetIdB5cxx11Ev[_ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile5GetIdB5cxx11Ev]+0x9c): undefined reference to `voice_profile_get_id'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile::GetType() const':
+main.cpp:(.text._ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile7GetTypeEv[_ZNK9Microsoft17CognitiveServices6Speech7Speaker12VoiceProfile7GetTypeEv]+0x39): undefined reference to `voice_profile_get_type'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerVerificationModel::FromProfile(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile>)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerVerificationModel11FromProfileESt10shared_ptrINS2_12VoiceProfileEE[_ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerVerificationModel11FromProfileESt10shared_ptrINS2_12VoiceProfileEE]+0x4e): undefined reference to `speaker_verification_model_create'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerVerificationModel::~SpeakerVerificationModel()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerVerificationModelD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker24SpeakerVerificationModelD5Ev]+0x2a): undefined reference to `speaker_verification_model_release_handle'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerIdentificationModel::FromProfiles(std::vector<std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile>, std::allocator<std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile> > > const&)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModel12FromProfilesERKSt6vectorISt10shared_ptrINS2_12VoiceProfileEESaIS7_EE[_ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModel12FromProfilesERKSt6vectorISt10shared_ptrINS2_12VoiceProfileEESaIS7_EE]+0x34): undefined reference to `speaker_identification_model_create'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModel12FromProfilesERKSt6vectorISt10shared_ptrINS2_12VoiceProfileEESaIS7_EE[_ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModel12FromProfilesERKSt6vectorISt10shared_ptrINS2_12VoiceProfileEESaIS7_EE]+0xab): undefined reference to `speaker_identification_model_add_profile'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerIdentificationModel::~SpeakerIdentificationModel()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModelD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker26SpeakerIdentificationModelD5Ev]+0x2a): undefined reference to `speaker_identification_model_release_handle'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognizer::FromConfig(std::shared_ptr<Microsoft::CognitiveServices::Speech::SpeechConfig>, std::shared_ptr<Microsoft::CognitiveServices::Speech::Audio::AudioConfig>)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer10FromConfigESt10shared_ptrINS1_12SpeechConfigEES4_INS1_5Audio11AudioConfigEE[_ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer10FromConfigESt10shared_ptrINS1_12SpeechConfigEES4_INS1_5Audio11AudioConfigEE]+0x7a): undefined reference to `recognizer_create_speaker_recognizer_from_config'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognizer::~SpeakerRecognizer()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizerD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizerD5Ev]+0x2a): undefined reference to `speaker_recognizer_release_handle'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognizer::RecognizeOnceAsync(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::SpeakerVerificationModel>)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer18RecognizeOnceAsyncESt10shared_ptrINS2_24SpeakerVerificationModelEE[_ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer18RecognizeOnceAsyncESt10shared_ptrINS2_24SpeakerVerificationModelEE]+0x42): undefined reference to `speaker_recognizer_verify'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognizer::RecognizeOnceAsync(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::SpeakerIdentificationModel>)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer18RecognizeOnceAsyncESt10shared_ptrINS2_26SpeakerIdentificationModelEE[_ZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer18RecognizeOnceAsyncESt10shared_ptrINS2_26SpeakerIdentificationModelEE]+0x42): undefined reference to `speaker_recognizer_identify'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::SpeakerRecognizer::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker17SpeakerRecognizer25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `speaker_recognizer_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileResult::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `result_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileResult::~VoiceProfileResult()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResultD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResultD5Ev]+0x2a): undefined reference to `recognizer_result_handle_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileResult::PopulateResultFields(_azac_empty*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, Microsoft::CognitiveServices::Speech::ResultReason*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0xae): undefined reference to `result_get_result_id'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0x140): undefined reference to `result_get_reason'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfilePhraseResult::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `result_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfilePhraseResult::~VoiceProfilePhraseResult()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResultD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResultD5Ev]+0x2a): undefined reference to `recognizer_result_handle_release'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfilePhraseResult::PopulateResultFields(_azac_empty*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, Microsoft::CognitiveServices::Speech::ResultReason*)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0xae): undefined reference to `result_get_result_id'
+/usr/bin/ld: main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE[_ZN9Microsoft17CognitiveServices6Speech7Speaker24VoiceProfilePhraseResult20PopulateResultFieldsEP11_azac_emptyPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS1_12ResultReasonE]+0x140): undefined reference to `result_get_reason'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::PrivatePropertyCollection::PrivatePropertyCollection(_azac_empty*)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient25PrivatePropertyCollectionC4EP11_azac_emptyENKUlvE_clEv]+0x39): undefined reference to `voice_profile_client_get_property_bag'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::FromConfig(std::shared_ptr<Microsoft::CognitiveServices::Speech::SpeechConfig>)':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient10FromConfigESt10shared_ptrINS1_12SpeechConfigEE[_ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient10FromConfigESt10shared_ptrINS1_12SpeechConfigEE]+0x51): undefined reference to `create_voice_profile_client_from_config'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::~VoiceProfileClient()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClientD2Ev[_ZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClientD5Ev]+0x2a): undefined reference to `voice_profile_client_release_handle'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::CreateProfileAsync(Microsoft::CognitiveServices::Speech::VoiceProfileType, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18CreateProfileAsyncENS1_16VoiceProfileTypeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18CreateProfileAsyncENS1_16VoiceProfileTypeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlvE_clEv]+0x6a): undefined reference to `create_voice_profile'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::EnrollProfileAsync(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile>, std::shared_ptr<Microsoft::CognitiveServices::Speech::Audio::AudioConfig>)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18EnrollProfileAsyncESt10shared_ptrINS2_12VoiceProfileEES4_INS1_5Audio11AudioConfigEEENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18EnrollProfileAsyncESt10shared_ptrINS2_12VoiceProfileEES4_INS1_5Audio11AudioConfigEEENKUlvE_clEv]+0x86): undefined reference to `enroll_voice_profile'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::DeleteProfileAsync(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speaker::VoiceProfile>)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18DeleteProfileAsyncESt10shared_ptrINS2_12VoiceProfileEEENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient18DeleteProfileAsyncESt10shared_ptrINS2_12VoiceProfileEEENKUlvE_clEv]+0x5c): undefined reference to `delete_voice_profile'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::Speaker::VoiceProfileClient::GetActivationPhrasesAsync(Microsoft::CognitiveServices::Speech::VoiceProfileType, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)::{lambda()#1}::operator()() const':
+main.cpp:(.text._ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient25GetActivationPhrasesAsyncENS1_16VoiceProfileTypeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlvE_clEv[_ZZN9Microsoft17CognitiveServices6Speech7Speaker18VoiceProfileClient25GetActivationPhrasesAsyncENS1_16VoiceProfileTypeERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEENKUlvE_clEv]+0x69): undefined reference to `get_activation_phrases'
+/usr/bin/ld: /tmp/ccExIcBM.o: in function `Microsoft::CognitiveServices::Speech::SmartHandle<_azac_empty*, &audio_config_release>::reset()':
+main.cpp:(.text._ZN9Microsoft17CognitiveServices6Speech11SmartHandleIP11_azac_emptyXadL_Z20audio_config_releaseEEE5resetEv[_ZN9Microsoft17CognitiveServices6Speech11SmartHandleIP11_azac_emptyXadL_Z20audio_config_releaseEEE5resetEv]+0x31): undefined reference to `audio_config_release'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:22: main] Error 1
