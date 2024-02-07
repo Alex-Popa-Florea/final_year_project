@@ -89,7 +89,8 @@ def get_edges(image):
 def get_board_mask(img):
     color = [0, 0, 0, 255, 255, 50]
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    # cv2.imshow("test", imgHSV)
+    # cv2.imshow("test1", img)
+    # cv2.imshow("test2", imgHSV)
     lower = np.array(color[:3])  
     upper = np.array(color[3:]) 
     mask = cv2.inRange(imgHSV, lower, upper)

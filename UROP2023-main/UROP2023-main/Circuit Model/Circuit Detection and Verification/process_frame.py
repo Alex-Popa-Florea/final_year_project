@@ -5,10 +5,17 @@ import virtual_board_all
 
 # crop frame to focus on board
 def crop_frame(frame, crop_x=760, crop_y=250, crop_width=450, crop_height=500):
-    
     frame_for_veri = frame[crop_y:crop_y + crop_height, crop_x:crop_x + crop_width]
     frame_for_hand = frame[crop_y:crop_y + crop_height, crop_x:crop_x + crop_width + 150]
     rotated_frame = cv2.rotate(frame_for_veri, cv2.ROTATE_90_CLOCKWISE)
+    
+    return rotated_frame, frame_for_hand
+
+# crop frame to focus on board
+def crop_frame_home(frame, crop_x=350, crop_y=200, crop_width=1000, crop_height=800):
+    frame_for_veri = frame[crop_y:crop_y + crop_height, crop_x:crop_x + crop_width]
+    frame_for_hand = frame[crop_y - 100:crop_y + crop_height + 100, crop_x - 100:crop_x + crop_width + 10]
+    rotated_frame = cv2.rotate(frame_for_veri, cv2.ROTATE_180)
     
     return rotated_frame, frame_for_hand
 
@@ -34,9 +41,6 @@ def process_frame_with_yolo(frame_tilt, model, matrixcoor_to_realcoor, show=True
 
     # Get the mapping between matrix entries and class, then draw the virtual board
     output = np.array(sorted(output, key=lambda x: x[-1]))
-    print("PRINTING TIMEEEE")
-    print(output)
-    print("PRINTING OVERRRRR")
     output = output[output[:, -1] != 1]  # the output related to board
     matrix, data = pieces_location.pieceOnEachLocation(output, matrixcoor_to_realcoor)
 
