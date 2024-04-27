@@ -41,8 +41,20 @@ def process_frame_with_yolo(frame_tilt, model, matrixcoor_to_realcoor, show=True
 
     # Get the mapping between matrix entries and class, then draw the virtual board
     output = np.array(sorted(output, key=lambda x: x[-1]))
-    output = output[output[:, -1] != 1]  # the output related to board
+
+    #print("LMAOOOOO")
+    #print(output)
+
+    if len(output) != 0:
+        output = output[output[:, -1] != 1]  # the output related to board ##error
+
+    #print("LMAOOOOO2")
+    #print(output)
+
     matrix, data = pieces_location.pieceOnEachLocation(output, matrixcoor_to_realcoor)
+
+    #print(matrix)
+    #print(data)
 
     # draw and display virtual board and board with pegs
     if show:
