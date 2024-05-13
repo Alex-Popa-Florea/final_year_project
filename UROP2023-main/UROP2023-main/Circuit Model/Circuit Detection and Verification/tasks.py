@@ -44,7 +44,7 @@ class GateSkill(Skill):
 		self.gate = gate
 
 class Task():
-	def __init__(self,task_id,name, pieces, skills, action = [], instruction = ""):
+	def __init__(self, task_id, name, pieces, skills, action = [], instruction = ""):
 		self.id = task_id
 		self.name = name
 		self.pieces = pieces
@@ -92,66 +92,11 @@ sk_music = PieceSkill("mc","piece","mc")
 # * (Skill 11) A Motor should be used
 sk_motor = PieceSkill("motor","piece","motor") 
 
-
 #------------------------------------------------------------------
 ## Piece connecting skills
 
 # * (skill 12) How to Connect two pieces together
 sk_cp = ConnectPieces("connect", "connect_pieces")
-
-
-
-# #------------------------------------------------------------------
-# ## Connection skills
-
-# # * (skill 13) - Connect LED to Switch
-# led_switch = ConnectionSkill("led_switch", "connection", "led", "switch")
-
-# # * (skill 14) - Connect LED to Button
-# led_button = ConnectionSkill("led_button", "connection", "led", "button")
-
-# # * (skill 15) - Connect LED to Reed Switch
-# led_reed = ConnectionSkill("led_mc", "connection", "led", "reed")
-
-# led_motor = ConnectionSkill("led_motor", "connection", "led", "motor")
-
-# # * (skill 16) - Connect Switch to Button
-# switch_button = ConnectionSkill("switch_button", "connection", "switch", "button")
-
-# # * (skill 17) - Connect Switch to Motor
-# switch_motor = ConnectionSkill("switch_motor", "connection", "switch", "motor")
-
-# # * (skill 18) - Connect Switch to Speaker
-# switch_speaker = ConnectionSkill("switch_speaker", "connection", "switch", "speaker")
-
-# # * (skill 19) - Connect Button to Motor
-# button_motor = ConnectionSkill("button_motor", "connection", "button", "motor")
-
-# # * (skill 20) - Connect Button to Speaker
-# button_speaker = ConnectionSkill("button_speaker", "connection", "button", "speaker")
-
-# # * (skill 21) - Connect Bulb to Switch
-# bulb_switch = ConnectionSkill("bulb_switch", "connection", "bulb", "switch")
-
-# # * (skill 22) - Connect Bulb to Button
-# bulb_button = ConnectionSkill("bulb_reed", "connection", "bulb", "button")
-
-# # * (skill 23) - Connect Bulb to Reed Switch
-# bulb_reed = ConnectionSkill("bulb_reed", "connection", "bulb", "reed")
-
-# # * (skill 24 ) - Connect Switch to MC
-# switch_mc = ConnectionSkill("switch_mc", "connection", "switch", "mc")
-
-# # * (skill 25 ) - Connect Button to MC
-# button_mc = ConnectionSkill("button_mc", "connection", "button", "mc")
-
-# # * (skill 26 ) - Connect Speaker to MC
-# speaker_mc = ConnectionSkill("speaker_mc", "connection", "speaker", "mc")
-
-# # * (skill 27 ) - Connect Speaker to FM
-# speaker_fm = ConnectionSkill("speaker_fm", "connection", "speaker", "fm")
-
-
 
 #------------------------------------------------------------------
 ## LED direction skills
@@ -159,14 +104,13 @@ sk_cp = ConnectPieces("connect", "connect_pieces")
 # * (skill 13) The correct directionality of an LED
 sk_dir_led = DirectionSkill("led_direc", "led")
 
-
 #------------------------------------------------------------------
 ## High level skills
 
 # * (skill 14) How to power an MC
 power_mc = MCSkill("power", "mc", "power", "wire")
 
-# * (skill 15) Check signal of an FM
+# * (skill 15) Check signal of an MC
 signal_mc = MCSkill("signal", "mc", "signal", "wire")
 
 # * (skill 16) How to power an FM
@@ -193,7 +137,27 @@ or_gate = GateSkill("or_gate", "gate", "or")
 # * (skill 21) How to create an NOT gate
 not_gate = GateSkill("not_gate", "gate", "not")
 
-all_skills = [sk_led, sk_FM,sk_buzzer,sk_switch, sk_reed, sk_button,sk_lamp, sk_battery, sk_speaker, sk_music, sk_motor,sk_cp, sk_dir_led, power_mc, signal_mc, power_fm, signal_fm, closed_circuit,and_gate,or_gate,not_gate]
+all_skills = [sk_led, 
+			  sk_FM, 
+			  sk_buzzer, 
+			  sk_switch, 
+			  sk_reed, 
+			  sk_button,
+			  sk_lamp, 
+			  sk_battery, 
+			  sk_speaker, 
+			  sk_music, 
+			  sk_motor, 
+			  sk_cp, 
+			  sk_dir_led, 
+			  power_mc, 
+			  signal_mc, 
+			  power_fm, 
+			  signal_fm, 
+			  closed_circuit, 
+			  and_gate, 
+			  or_gate, 
+			  not_gate]
 
 ################################################
 
@@ -216,11 +180,11 @@ task4 = Task(4,"sw_mo", ["switch", "motor"], [],
 
 task5 = Task(5,"bu_mo", ["push button", "motor"], [],
 		[0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 ],
-		"Build a circuit that you can turn a motor on and off using a switch")
+		"Build a circuit that you can turn a motor on and off using a button")
 
 task6 = Task(6,"re_mo", ["reed", "motor"], [],
 		[0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 ],
-		"Build a circuit that you can turn a motor on and off using a switch")
+		"Build a circuit that you can turn a motor on and off using a reed switch")
 
 task7 = Task(7,"mo", ["motor"], [],
 		[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 ],

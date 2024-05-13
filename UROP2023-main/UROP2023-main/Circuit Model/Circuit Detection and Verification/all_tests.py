@@ -38,7 +38,7 @@ def printAllPaths(start, end, path, all_paths):
     return all_paths
     # ~ path.pop()
 
-def all_circuits(start, end, path, all_paths):
+def all_circuits(start, end, path, all_paths, max_tries=20):
     """
     Find all circuits from the 'start' piece to the 'end' piece in a graph.
 
@@ -51,13 +51,37 @@ def all_circuits(start, end, path, all_paths):
     Returns:
     list: A list of all circuits from 'start' to 'end' in the graph.
     """
+    # print("YOOOOOOOOOOOOOOO")
+    # print("ALL_PATHS")
+    # print(all_paths)
+    # print("PATH")
+    # print(path)
+    # print("NAME")
+    # print(start.name)
+
+    print("ALL CIRCUITS CHECK")
+    print(start.name)
+    print(path)
+    
+    loop = False
+
+    for piece in path:
+        print(piece)
+        if start.name == piece:
+            print("LOL")
+            loop = True
+
     path.append(start.name)
+    if max_tries <= 0:
+        return all_paths
     if (start.name == end.name):
         all_paths.append(path)
     else:
+        if loop:
+            return all_paths
         for v in start.out:
             if (v.name not in path):
-                all_circuits(v, end, path[:], all_paths)
+                all_circuits(v, end, path[:], all_paths, max_tries=max_tries-1)
     return all_paths
 
 def detect_circuit(piece,all_pieces): # MAIN FUNCTION CALLED: find any route back to start
@@ -73,9 +97,13 @@ def detect_circuit(piece,all_pieces): # MAIN FUNCTION CALLED: find any route bac
     """
     all_paths = []
     start = piece
-	# ~ print (all_pieces)
+	
+    print(all_pieces)
+
 	# ~ print (start.out)
     for p in start.out:
+        print("BRRRRR")
+        print(start.out)
         all_paths = all_circuits(p, start, [], []) # if more than one out, the last one will overwrite the previous ones
     return all_paths
 
@@ -553,11 +581,6 @@ def update_skills(task, all_pieces):
     27: tasks.task27,
     28: tasks.task28,
     29: tasks.task29,
-    # 30: tasks.task30,
-    # 31: tasks.task31,
-    # 32: tasks.task32,
-    # 33: tasks.task33,
-    # 34: tasks.task34
 }
     
     task = task_mapping.get(task, None)
@@ -570,18 +593,6 @@ def update_skills(task, all_pieces):
         sk = tasks.all_skills[ind]  # The skill this position in the observation vector is related to
         
         if i == 0:  # If we don't need this skill
-            # if isinstance(sk, tasks.PieceSkill):
-            #     o = test_piece(sk.name, all_pieces)
-            #     if o == 1:
-            #         if ind != 3 and ind != 2:
-            #             obs.append(3)  # Resistor related?
-            #         elif task.action[2] == 0 and task.action[3] == 0:
-            #             obs.append(3)
-            #         else:
-            #             obs.append(2)
-            #     else:
-            #         obs.append(2)
-            # else:
             obs.append(2)
         if i == 1:
             # print(i,ind)

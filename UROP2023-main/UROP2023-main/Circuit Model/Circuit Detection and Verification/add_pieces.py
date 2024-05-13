@@ -36,9 +36,15 @@ def getContours(img,imgContour,in_area=5,show=False):
     """
     contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
+        print("LOOOOOL")
+        
         area = cv2.contourArea(cnt)
-        areaMin = cv2.getTrackbarPos("Area", "Parameters")
+        print(area)
+        #areaMin = cv2.getTrackbarPos("Area", "Parameters")
+        #print(areaMin)
         if area > in_area:
+            print("AHHHGGGG")
+            print(imgContour)
             cv2.drawContours(imgContour, cnt, -1, (255, 0, 255), 7)
             peri = cv2.arcLength(cnt, True)
             approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
@@ -110,59 +116,68 @@ def get_ports_location(piece,output,frame_tilt,angle,show=False):
         cv2.imshow('mask',mask)
         cv2.waitKey(1)
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask) 
-        y,x,_,_ = getContours(mask,result,in_area=24,show=True) # in_area to be tuned (depending on distance between camera and board)
-        if width_focus > height_focus and x>height_focus//2 and y<width_focus//2: 
-            print('fm is right')
-            inp, waves, out = (piece.x1,piece.y2), (piece.x1+2,piece.y2), (piece.x2,piece.y2) 
-        elif width_focus > height_focus and x<height_focus//2 and y>width_focus//2: 
-            print('fm is left')
-            inp, waves, out = (piece.x1,piece.y1), (piece.x1+2,piece.y1), (piece.x2,piece.y1)
-        elif width_focus < height_focus and x>height_focus//2 and y>width_focus//2: 
-            print('fm is up')
-            inp, waves, out = (piece.x1,piece.y1), (piece.x1,piece.y1+2), (piece.x1,piece.y2)
-        elif width_focus < height_focus and x<height_focus//2 and y<width_focus//2:
-            print('fm is down')
-            inp, waves, out = (piece.x2,piece.y1), (piece.x2,piece.y1+2), (piece.x2,piece.y2)
-        return (inp, waves, out) 
+        contours_out = getContours(mask,result,in_area=24,show=True) # in_area to be tuned (depending on distance between camera and board)
+        
+        if contours_out:
+            y,x,_,_ = contours_out
+            if width_focus > height_focus and x>height_focus//2 and y<width_focus//2: 
+                print('fm is right')
+                inp, waves, out = (piece.x1,piece.y2), (piece.x1+2,piece.y2), (piece.x2,piece.y2) 
+            elif width_focus > height_focus and x<height_focus//2 and y>width_focus//2: 
+                print('fm is left')
+                inp, waves, out = (piece.x1,piece.y1), (piece.x1+2,piece.y1), (piece.x2,piece.y1)
+            elif width_focus < height_focus and x>height_focus//2 and y>width_focus//2: 
+                print('fm is up')
+                inp, waves, out = (piece.x1,piece.y1), (piece.x1,piece.y1+2), (piece.x1,piece.y2)
+            elif width_focus < height_focus and x<height_focus//2 and y<width_focus//2:
+                print('fm is down')
+                inp, waves, out = (piece.x2,piece.y1), (piece.x2,piece.y1+2), (piece.x2,piece.y2)
+            return (inp, waves, out) 
     if piece.type == 'mc':
         imgHSV = de_tilt(imgHSV,angle)
         mask = get_mask([8,57,33,88,182,168],imgHSV) # masking to be tuned
         cv2.imshow('mask',mask)
         cv2.waitKey(1)
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask)
-        y,x,_,_ = getContours(mask,result,in_area=24,show=True) # in_area to be tuned (depending on distance between camera and board)
-        if width_focus > height_focus and x > height_focus//2 :
-            print('mc is left')
-            trigger, inp, hold, waves, out = (piece.x1,piece.y1),(piece.x1+2,piece.y1),(piece.x2,piece.y1),(piece.x1,piece.y2),(piece.x2,piece.y2)
-        elif width_focus > height_focus and x<height_focus//2 :
-            print('mc is right')
-            trigger, inp, hold, waves, out = (piece.x2,piece.y2),(piece.x1+2,piece.y2),(piece.x1,piece.y2),(piece.x2,piece.y1),(piece.x1,piece.y1)
-        elif width_focus < height_focus and y>width_focus//2: # change to  edge_y1>width_focus//2 different color masking (now for prevent masking color from other components)
-            print('mc is down')
-            trigger, inp, hold, waves, out = (piece.x2,piece.y1),(piece.x2,piece.y1+2),(piece.x2,piece.y2),(piece.x1,piece.y1),(piece.x1,piece.y2)
-        elif width_focus < height_focus and y<width_focus//2:
-            print('mc is up')
-            trigger, inp, hold, waves, out = (piece.x1,piece.y2),(piece.x1,piece.y1+2),(piece.x1,piece.y1),(piece.x2,piece.y2),(piece.x2,piece.y1)
-        return (trigger, inp, hold, waves, out) 
+        contours_out = getContours(mask,result,in_area=24,show=True) # in_area to be tuned (depending on distance between camera and board)
+        
+        if contours_out:
+            y,x,_,_ = contours_out
+            if width_focus > height_focus and x > height_focus//2 :
+                print('mc is left')
+                trigger, inp, hold, waves, out = (piece.x1,piece.y1),(piece.x1+2,piece.y1),(piece.x2,piece.y1),(piece.x1,piece.y2),(piece.x2,piece.y2)
+            elif width_focus > height_focus and x<height_focus//2 :
+                print('mc is right')
+                trigger, inp, hold, waves, out = (piece.x2,piece.y2),(piece.x1+2,piece.y2),(piece.x1,piece.y2),(piece.x2,piece.y1),(piece.x1,piece.y1)
+            elif width_focus < height_focus and y>width_focus//2: # change to  edge_y1>width_focus//2 different color masking (now for prevent masking color from other components)
+                print('mc is down')
+                trigger, inp, hold, waves, out = (piece.x2,piece.y1),(piece.x2,piece.y1+2),(piece.x2,piece.y2),(piece.x1,piece.y1),(piece.x1,piece.y2)
+            elif width_focus < height_focus and y<width_focus//2:
+                print('mc is up')
+                trigger, inp, hold, waves, out = (piece.x1,piece.y2),(piece.x1,piece.y1+2),(piece.x1,piece.y1),(piece.x2,piece.y2),(piece.x2,piece.y1)
+            return (trigger, inp, hold, waves, out) 
     if piece.type == 'led':
         mask = get_mask([0,0,95,91,124,209],imgHSV) # masking to be tuned
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask)
-        y,x,h,w= getContours(mask,result,in_area=50,show=True) # in_area should be tuned
-        if width_focus < height_focus: # LED is horizontal
-            if x+w > height_focus//2:
-                print('LED is horizontal and positive on right')
-                inp, out = (piece.x1,piece.y2), (piece.x1,piece.y1)
-            elif x < height_focus//2:
-                print('LED is horizontal and positive on left')
-                inp, out = (piece.x1,piece.y1), (piece.x1,piece.y2)
-        if width_focus > height_focus: # LED is vertical
-            if y > width_focus//2:
-                print('LED is vertical and positive on top')
-                inp, out = (piece.x1,piece.y1), (piece.x2,piece.y1)
-            else:
-                print('LED is vertical and positive on bottom')
-                inp, out = (piece.x2,piece.y1), (piece.x1,piece.y1)
-        return (inp, out)
+        contours_out = getContours(mask,result,in_area=50,show=True) # in_area should be tuned
+        
+        if contours_out:
+            y,x,h,w = contours_out
+            if width_focus < height_focus: # LED is horizontal
+                if x+w > height_focus//2:
+                    print('LED is horizontal and positive on right')
+                    inp, out = (piece.x1,piece.y2), (piece.x1,piece.y1)
+                elif x < height_focus//2:
+                    print('LED is horizontal and positive on left')
+                    inp, out = (piece.x1,piece.y1), (piece.x1,piece.y2)
+            if width_focus > height_focus: # LED is vertical
+                if y > width_focus//2:
+                    print('LED is vertical and positive on top')
+                    inp, out = (piece.x1,piece.y1), (piece.x2,piece.y1)
+                else:
+                    print('LED is vertical and positive on bottom')
+                    inp, out = (piece.x2,piece.y1), (piece.x1,piece.y1)
+            return (inp, out)
 
 def add_new_piece(data,output,frame_tilt,angle,board,all_pieces):
     """Add new piece locations and connection to classes
@@ -225,11 +240,15 @@ def add_new_piece(data,output,frame_tilt,angle,board,all_pieces):
         l = pieces.Led(name,data['x1'], data['x2'], data['y1'],data['y2']) # data.start.y, data.start.x, data.end.y, data.end.x
         correct_size(l)
         # add connection
-        inp, out = get_ports_location(l,output,frame_tilt,angle)
-        print('inp',inp,'out',out)
-        connections.add_connection(board,l, inp[0], inp[1], "dual")
-        connections.add_connection(board,l, inp[0], inp[1], "inp2")
-        connections.add_connection(board,l, out[0], out[1], "dual")
+        inp_out = get_ports_location(l,output,frame_tilt,angle)
+
+        if inp_out:
+            inp, out = inp_out
+            print('inp',inp,'out',out)
+            connections.add_connection(board,l, inp[0], inp[1], "dual")
+            connections.add_connection(board,l, inp[0], inp[1], "inp2")
+            connections.add_connection(board,l, out[0], out[1], "dual")
+
         all_pieces.append(l)
     
     elif (data['type'] == "lamp"):
