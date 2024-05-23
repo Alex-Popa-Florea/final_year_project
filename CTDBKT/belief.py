@@ -102,9 +102,6 @@ class UserSkillBelief():
         else:
             return 1
 
-    def get_H(self):
-        return self.H
-
     def __str__(self):
         return f'c: {self.c}, \nH: {self.H}, \nt: {self.t}' 
     
@@ -112,6 +109,17 @@ class UserSkillBelief():
 def plot_beliefs(beliefs):
     for sid in beliefs:
         belief = beliefs[sid]
+        
+        plt.figure(figsize=(10, 2))
+        plt.plot(np.arange(belief.t), np.array(belief.o), linestyle='-')
+
+        plt.xlabel('Time Step')
+        plt.ylabel('Observation')
+        plt.title('Observation SID: ' + str(sid))
+
+        plt.yticks([0, 0.2, 0.4, 0.6, 0.8, 1])
+        plt.show()
+
         for uid in belief.users:
 
 
