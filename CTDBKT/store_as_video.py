@@ -27,3 +27,21 @@ def store_video(cap):
     
     # Return the VideoWriter object
     return writer
+
+def store_video_titled(cap, unique_uids, tid):
+    # Check if the 'user_study' directory exists, and create it if it doesn't
+    if not os.path.exists('user_study'):
+        os.makedirs('user_study')
+
+    # Get the list of existing files in the "user_study" directory
+    existing_files = os.listdir('user_study')
+
+    # Create a VideoWriter to save the cropped video
+    fourcc = cv2.VideoWriter_fourcc(*'H264')
+    output_path = os.path.join('user_study', f"user_study_{str(unique_uids)}_{str(tid)}.mp4")
+    
+    # Set up the VideoWriter with the same frame size and a frame rate of 20 frames per second
+    writer = cv2.VideoWriter(output_path, fourcc, 20.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+    
+    # Return the VideoWriter object
+    return writer

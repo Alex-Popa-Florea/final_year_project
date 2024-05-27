@@ -148,6 +148,8 @@ class Board:
                 self.history.add_elem(uid, "closed", "added", contr[uid])
                 for stud in correct_studs:
                     self.history.add_stud_direction_elem(uid, stud[0], stud[1], stud[2], "added", contr[uid])
+                if num_flows == 1:
+                    self.history.add_elem(uid, "series", "added", contr[uid])
                 if num_flows > 1:
                     self.history.add_elem(uid, "parallel", "added", contr[uid])
         return connection_formed

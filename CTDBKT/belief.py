@@ -2,17 +2,18 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 class GroupSkillBelief():
-    def __init__(self, sname, sid, uids, p_L_0, p_S, p_G, p_T, n, discussion_time, solve_time) -> None:
+    def __init__(self, sname, sid, uids, p_L_0s, p_S, p_G, p_T, n, discussion_time, solve_time) -> None:
         self.sname = sname
         self.sid = sid
         self.users = {}
+        self.p_L_0s = p_L_0s
         self.t = 1
 
         self.p_T = p_T
         self.o = [0]
 
         for uid in uids:
-            user = UserSkillBelief(uid=uid, sname=sname, sid=sid, p_L_0=p_L_0, p_S=p_S, p_G=p_G, p_T=p_T, E_k=discussion_time + solve_time, n=n)
+            user = UserSkillBelief(uid=uid, sname=sname, sid=sid, p_L_0=p_L_0s[uid], p_S=p_S, p_G=p_G, p_T=p_T, E_k=discussion_time + solve_time, n=n)
             self.users[uid] = user
 
     def step(self, o_t, c_ts):

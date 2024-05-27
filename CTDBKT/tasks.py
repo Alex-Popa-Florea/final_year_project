@@ -52,17 +52,18 @@ sid_skill_map = {
     12: PieceSkill("identify_motor", "motor", SkillProbs()),
     13: Skill("connect_pieces", "connection", SkillProbs(prob_guessing=0.1, prob_learning=0.5)),
     14: Skill("close_circuit", "closed", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.4)),
-    15: Skill("parallel_circuit", "parallel", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.5)),
-    16: StudDirectionSkill("led_pos_stud", "led", StudType.POSITIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
-    17: StudDirectionSkill("led_neg_stud", "led", StudType.NEGATIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
-    18: StudDirectionSkill("fm_in_stud", "fm", StudType.IN, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
-    19: StudDirectionSkill("fm_out_stud", "fm", StudType.OUT, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
-    20: StudDirectionSkill("fm_signal_stud", "fm", StudType.SIGNAL, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
-    21: StudDirectionSkill("mc_in_stud", "mc", StudType.IN, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
-    22: StudDirectionSkill("mc_out_stud", "mc", StudType.OUT, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
-    23: StudDirectionSkill("mc_trigger_stud", "mc", StudType.TRIGGER, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
-    24: StudDirectionSkill("mc_repeat_stud", "mc", StudType.REPEAT, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
-    25: StudDirectionSkill("mc_restart_stud", "mc", StudType.RESTART, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
+    15: Skill("series_circuit", "series", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.5)),
+    16: Skill("parallel_circuit", "parallel", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.5)),
+    17: StudDirectionSkill("led_pos_stud", "led", StudType.POSITIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
+    18: StudDirectionSkill("led_neg_stud", "led", StudType.NEGATIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
+    19: StudDirectionSkill("fm_in_stud", "fm", StudType.IN, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
+    20: StudDirectionSkill("fm_out_stud", "fm", StudType.OUT, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
+    21: StudDirectionSkill("fm_signal_stud", "fm", StudType.SIGNAL, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
+    22: StudDirectionSkill("mc_in_stud", "mc", StudType.IN, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
+    23: StudDirectionSkill("mc_out_stud", "mc", StudType.OUT, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
+    24: StudDirectionSkill("mc_trigger_stud", "mc", StudType.TRIGGER, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
+    25: StudDirectionSkill("mc_repeat_stud", "mc", StudType.REPEAT, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
+    26: StudDirectionSkill("mc_restart_stud", "mc", StudType.RESTART, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
 }
 
 class TaskObservations():
@@ -131,6 +132,24 @@ class TaskObservations():
         self.os[sid] = o
         self.cs[sid] = c
     
+    def check_series_skill(self, sid, board, num_flows):
+        o = 0
+        if num_flows == 1:
+            o = 1
+        c = {}
+        for uid in board.history.obs_history:
+            if o:
+                uid_hist = board.history.obs_history[uid]
+                uid_c = 0
+                for history_elem in uid_hist:
+                    if history_elem.elem_type == "series" and history_elem.move == "added":
+                        uid_c = max(uid_c, history_elem.contr_percentage)
+                c[uid] = uid_c
+            else:
+                c[uid] = 0
+        self.os[sid] = o
+        self.cs[sid] = c
+
     def check_parallel_skill(self, sid, board, num_flows):
         o = 0
         if num_flows > 1:
@@ -200,6 +219,8 @@ class TaskObservations():
                 self.check_connection_skill(sid, board)
             if skill.skill_type == "closed":
                 self.check_closed_skill(sid, board, found_flow)
+            if skill.skill_type == "series":
+                self.check_series_skill(sid, board, num_flows)
             if skill.skill_type == "parallel":
                 self.check_parallel_skill(sid, board, num_flows)
             if skill.skill_type == "stud_direction":
@@ -208,18 +229,12 @@ class TaskObservations():
 
 def get_task(tid, uids):
     if tid == "task1":
-        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a regular switch", [5, 8, 9, 13, 14], uids)
+        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a switch", [5, 8, 9, 13, 14], uids)
     if tid == "task2":
-        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a button switch", [4, 8, 9, 13, 14], uids)
+        return TaskObservations("Build a circuit with a led and motor in series that can be turned on and off using a button", [4, 7, 9, 12, 13, 14, 15, 17, 18], uids)
     if tid == "task3":
-        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a reed switch", [3, 8, 9, 13, 14], uids)
+        return TaskObservations("Build a circuit with a led and lamp where the led is turned on by a switch and the lamp by a button", [4, 5, 7, 8, 9, 13, 14, 16, 17, 18], uids)
     if tid == "task4":
-        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a regular switch", [3, 8, 9, 13, 14], uids)
-    if tid == "task4":
-        return TaskObservations("Build a circuit with a light that can be turned on and off using a regular switch", [3, 8, 9, 13, 14], uids)
-    if tid == "task5":
-        return TaskObservations("Build a circuit with a light that can be turned on and off using a regular switch", [3, 8, 9, 13, 14], uids)
-    if tid == "task6":
-        return TaskObservations("Build a circuit with a light that can be turned on and off using a regular switch", [3, 8, 9, 13, 14], uids)
+        return TaskObservations("Build a circuit with a music box plays music through a speaker when a switch is turned on once then stops", [5, 9, 10, 11, 13, 22, 23, 24], uids)
 
 
