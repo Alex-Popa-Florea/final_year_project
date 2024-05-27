@@ -58,11 +58,6 @@ def get_direction(piece):
     top_piece = min(py1, py2)
     bottom_piece = max(py1, py2)
 
-    print(left_piece)
-    print(right_piece)
-    print(top_piece)
-    print(bottom_piece)
-
     if (right_piece - left_piece) > (bottom_piece - top_piece):
         direct = "left_right"
     else:
@@ -94,7 +89,6 @@ def is_in_peg(peg_center, peg_size, piece):
     bottom_overlap = min(bottom_piece, bottom_peg)
 
     if right_overlap > left_overlap and bottom_overlap > top_overlap:
-        # Calculate the area of the overlapping rectangle
         overlap_width = right_overlap - left_overlap
         overlap_height = bottom_overlap - top_overlap
         return (overlap_width * overlap_height) / (row_size * col_size)
@@ -224,12 +218,6 @@ def adjust_size(data_item, direct):
 
     return True, new_data_item
 
-    
-
-        
-    
-
-
 def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size): 
     matrix = {}
     data = []
@@ -265,20 +253,17 @@ def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size):
                         largest_col = col
                     data_item["pegs_kept"][peg] = overlap
             
-            print(data_item)
 
             for row in range(smallest_row, largest_row + 1):
                 for col in range(smallest_col, largest_col + 1):
                     if not (row, col) in data_item["pegs_kept"]:
                         data_item["pegs_kept"][row, col] = 0
-            print(data_item)
+            
             correct_size, new_data_item = adjust_size(data_item, direct)
-            print(new_data_item)
+
             if correct_size:
                 data.append(new_data_item)
                 for peg in new_data_item["pegs_kept"]:
                     matrix[peg].append(piece)
             
-    print("YAAAAAY")
-    print(data)
     return matrix, data

@@ -25,7 +25,6 @@ def get_contours(img, imgContour, in_area=5, show=False):
     contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        print(area)
         if area > in_area:
             cv2.drawContours(imgContour, cnt, -1, (255, 0, 255), 7)
             peri = cv2.arcLength(cnt, True)
@@ -280,8 +279,6 @@ def data_to_board(board, data, output, frame_tilt, angle, contribution={}):
             if rows == 3 and cols == 2:
                 removed_pegs = list(data_item["pegs_removed"].keys())
                 if len(removed_pegs) != 0:
-                    print("HAHAHA")
-                    print(removed_pegs)
                     if removed_pegs[0][1] == origin[1] + 2:
                         direction = 0
                     elif removed_pegs[0][1] == origin[1] - 1:
@@ -296,8 +293,6 @@ def data_to_board(board, data, output, frame_tilt, angle, contribution={}):
             elif rows == 2 and cols == 3:
                 removed_pegs = list(data_item["pegs_removed"].keys())
                 if len(removed_pegs) != 0:
-                    print("HAHAHA")
-                    print(removed_pegs)
                     if removed_pegs[0][0] == origin[0] + 2:
                         direction = 90
                     elif removed_pegs[0][0] == origin[0] - 1:
@@ -353,5 +348,4 @@ def data_to_board(board, data, output, frame_tilt, angle, contribution={}):
                 pass
 
     changes = board.swap_pieces(present_pieces, contribution)
-    print(board)
     return board, changes

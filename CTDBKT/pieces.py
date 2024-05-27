@@ -123,12 +123,10 @@ class Board:
             if not found_pieces[old_piece_id]:
                 changes = True
                 self.remove_piece(old_piece_id, contr)
-        
         return changes
 
 
     def add_piece(self, piece, contr={}):
-        print(piece.stud_matrix)
         self.pieces[piece.name] = piece
         connection_formed = False
         for row_index, col in enumerate(piece.stud_matrix):
@@ -140,7 +138,7 @@ class Board:
                                 connection_formed = True
                 self.pegs[piece.position[0] + row_index][piece.position[1] + col_index][piece.name] = value
         
-        flow_found, correct_studs = self.find_flow()
+        flow_found, num_flows, correct_studs = self.find_flow()
         
         for uid in contr:
             self.history.add_piece_elem(uid, piece.name, piece.type, "added", contr[uid])
@@ -149,9 +147,9 @@ class Board:
             if flow_found:
                 self.history.add_elem(uid, "closed", "added", contr[uid])
                 for stud in correct_studs:
-                    print("STUD")
-                    print(stud)
                     self.history.add_stud_direction_elem(uid, stud[0], stud[1], stud[2], "added", contr[uid])
+                if num_flows > 1:
+                    self.history.add_elem(uid, "parallel", "added", contr[uid])
         return connection_formed
         
     def remove_piece(self, piece_id, contr={}):
@@ -185,11 +183,11 @@ class Board:
                             if other_value != StudType.NONE.value:
                                 connections[(piece.position[0] + row_index, piece.position[1] + col_index)][1].append((other_piece_id, other_value))
                                 connection_count += 1
-        print(connections)
         return connections, connection_count
 
     def find_flow(self):
-        flow_found = False
+        overall_flow_found = False
+        overall_num_flows = 0
         all_correct_studs = []
         for piece_id in self.pieces:
             if self.pieces[piece_id].type == "battery":
@@ -198,14 +196,15 @@ class Board:
                 for con in battery_conns:
                     if battery_conns[con][0] == StudType.POSITIVE.value:
                         for (other_piece_id, con_value) in battery_conns[con][1]:
-                            flow_found, path, correct_studs = self.flow_step(other_piece_id, con_value, [piece_id])
+                            flow_found, num_flows, path, correct_studs = self.flow_step(other_piece_id, con_value, [piece_id])
                             if flow_found:
+                                overall_num_flows += num_flows
+                                overall_flow_found = True
                                 piece_list.append(path)
                                 for correct_stud in correct_studs:
                                     all_correct_studs.append(correct_stud)
-                print({piece_id: piece_list})
-                print(all_correct_studs)
-        return flow_found, all_correct_studs
+
+        return overall_flow_found, overall_num_flows, all_correct_studs
 
     def flow_step(self, piece_id, con_value, visited):
         found_closed = False
@@ -213,24 +212,24 @@ class Board:
 
         piece = self.pieces[piece_id]
         if piece.type == "battery" and con_value == StudType.NEGATIVE.value:
-            return True, {piece_id: "Complete!"}, []
+            return True, 1, {piece_id: "Complete!"}, []
         if piece_id in visited:
-            return False, None, []
+            return False, 0, None, []
         
         if piece.type == "led" and con_value == StudType.NEGATIVE.value:
-            return False, None, []
+            return False, 0, None, []
         elif piece.type == "led" and con_value == StudType.POSITIVE.value:
             all_correct_studs.append((piece_id, "led", StudType.POSITIVE))
 
         if piece.type == "fm" and con_value == StudType.OUT.value:
-            return False, None, []
+            return False, 0, None, []
         elif piece.type == "fm" and con_value == StudType.IN.value:
             all_correct_studs.append((piece_id, "fm", StudType.IN))
         elif piece.type == "fm" and con_value == StudType.SIGNAL.value:
             all_correct_studs.append((piece_id, "fm", StudType.SIGNAL))
 
         if piece.type == "mc" and con_value == StudType.OUT.value:
-            return False, None, []
+            return False, 0, None, []
         elif piece.type == "mc" and con_value == StudType.IN.value:
             all_correct_studs.append((piece_id, "mc", StudType.IN))
         elif piece.type == "mc" and con_value == StudType.TRIGGER.value:
@@ -249,7 +248,7 @@ class Board:
         cons, _ = self.get_connections(piece_id)
 
         
-
+        total_closed = 0
         for index in cons: 
             current_correct_studs = []
             if piece.type == "led" and cons[index][0] == StudType.POSITIVE.value:
@@ -265,7 +264,7 @@ class Board:
                 current_correct_studs.append((piece_id, "fm", StudType.SIGNAL))
 
             if piece.type == "mc" and cons[index][0] == StudType.IN.value:
-                return False, None, []
+                return False, 0, None, []
             elif piece.type == "mc" and cons[index][0] == StudType.OUT.value:
                 current_correct_studs.append((piece_id, "mc", StudType.OUT))
             elif piece.type == "mc" and cons[index][0] == StudType.TRIGGER.value:
@@ -274,10 +273,10 @@ class Board:
                 current_correct_studs.append((piece_id, "mc", StudType.REPEAT))
             elif piece.type == "mc" and cons[index][0] == StudType.RESTART.value:
                 current_correct_studs.append((piece_id, "mc", StudType.RESTART))
-
+            
             for (other_piece_id, other_con_value) in cons[index][1]:
-                closed, path, correct_studs = self.flow_step(other_piece_id, other_con_value, new_visited)
-                
+                closed, num_closed, path, correct_studs = self.flow_step(other_piece_id, other_con_value, new_visited)
+                total_closed += num_closed
                 if closed:
                     for current_correct_stud in current_correct_studs:
                         all_correct_studs.append(current_correct_stud)
@@ -286,7 +285,7 @@ class Board:
                     found_closed = True
                     piece_list.append(path)
         
-        return found_closed, {piece_id: piece_list}, all_correct_studs
+        return found_closed, total_closed, {piece_id: piece_list}, all_correct_studs
 
 class Piece:
     def __init__(self, name, type, stud_matrix, position, direction, is_special = False):
@@ -503,9 +502,9 @@ class Motor(Piece):
 # board.swap_pieces([Battery("b2", (0, 2), 0), Wire("w1", (0, 0), 90, 3)], {0: 0.2, 1: 0.8})
 # board.swap_pieces([Battery("b3", (0, 2), 0), Wire("w4", (0, 0), 90, 3), Wire("w5", (0, 1), 90, 3)], {0: 0.3, 1: 0.7})
 # board.swap_pieces([Battery("b4", (0, 2), 0), Wire("w6", (0, 0), 90, 3), Wire("w7", (0, 1), 90, 3), Wire("w8", (0, 0), 0, 3)], {0: 0.4, 1: 0.6})
-# board.swap_pieces([Battery("b5", (0, 2), 0), Wire("w9", (0, 0), 90, 3), Wire("w10", (0, 1), 90, 3), Wire("w11", (0, 0), 0, 3), Led("led1", (2, 0), 0)], {0: 0.3, 1: 0.7})
+# board.swap_pieces([Battery("b5", (0, 2), 0), Wire("w9", (0, 0), 90, 3), Wire("w10", (0, 1), 90, 3), Wire("w11", (0, 0), 0, 3), Wire("led1", (2, 0), 0, 3)], {0: 0.3, 1: 0.7})
 
-# test = tasks_new.TaskObservations("lol", [7, 9, 13, 14, 15, 16], [0, 1])
+# test = tasks.TaskObservations("lol", [7, 9, 13, 14, 15, 16, 17], [0, 1])
 # print("\n")
 # print("BOARD")
 # print(board)
