@@ -3,17 +3,18 @@ import React, { useState, useEffect } from 'react';
 interface Task {
   title: string;
   instructions: string;
-  duration: number; // in seconds
+  duration: number; 
 }
 
 const tasks: Task[] = [
-  { title: 'Task 1', instructions: 'Do something for task 1', duration: 10 },
-  { title: 'Task 2', instructions: 'Do something for task 2', duration: 15 },
-  // Add more tasks as needed
+  { title: 'Task 1', instructions: 'Build a circuit with a lamp that can be turned on and off using a switch', duration: 10 },
+  { title: 'Task 2', instructions: 'Build a circuit with a led and motor in series that can be turned on and off using a button', duration: 15 },
+  { title: 'Task 3', instructions: 'Build a circuit with a led and lamp where the led is turned on by a switch and the lamp by a button', duration: 15 },
+  { title: 'Task 4', instructions: 'Build a circuit with a music box plays music through a speaker when a switch is turned on once then stops', duration: 15 },
 ];
 
 const TaskTimer: React.FC = () => {
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(-1); // Initialize to -1 to represent start screen
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(-1);
   const [timeLeft, setTimeLeft] = useState(0);
   const [allTasksCompleted, setAllTasksCompleted] = useState(false);
   const [showRemoveMessage, setShowRemoveMessage] = useState(false);
@@ -73,6 +74,7 @@ const TaskTimer: React.FC = () => {
       {showStartScreen && (
         <div>
           <h1>Welcome to Collaborative Electronic Circuit Builder</h1>
+          <p>This application will guide you through a series of electric circuit building tasks. Each task has a set duration, shown in seconds, and once the time is up, you'll be prompted to remove all pieces from the board before moving on to the next task. Please build all circuits within the board space and keep your hands by your side when not interacting with or pointing to pieces or the board.</p>
           <button className="next-task-button" onClick={handleBeginTasks}>Begin tasks</button>
         </div>
       )}

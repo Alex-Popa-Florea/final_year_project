@@ -133,18 +133,17 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
             direction = 0
         else:
             direction = 90
-
         if contours_out:
             x, y, _, _ = contours_out
             if direct == "left_right":
                 if x < width_focus // 2:
                     direction = 0
-                elif x > width_focus:
+                elif x > width_focus // 2:
                     direction = 180
             elif direct == "up_down":
-                if y < height_focus // 2: #
+                if y > height_focus // 2: 
                     direction = 90
-                elif y > height_focus // 2:
+                elif y < height_focus // 2:
                     direction = 240
         
         return direction

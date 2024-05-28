@@ -13,7 +13,7 @@ class StudType(Enum):
     SIGNAL = 8
 
 class SkillProbs():
-    def __init__(self, prob_slipping=0.1, prob_guessing=0.4, prob_learning=0.8) -> None:
+    def __init__(self, prob_slipping=0.1, prob_guessing=0.2, prob_learning=0.7) -> None:
         self.prob_slipping = prob_slipping
         self.prob_guessing = prob_guessing
         self.prob_learning = prob_learning
@@ -67,7 +67,7 @@ sid_skill_map = {
 }
 
 class TaskObservations():
-    def __init__(self, description, involved_skill_ids, uids, discussion_time=100, solve_time=100) -> None:
+    def __init__(self, description, involved_skill_ids, uids, discussion_time=30, solve_time=30) -> None:
         self.description = description
         self.sids = involved_skill_ids
         self.uids = uids

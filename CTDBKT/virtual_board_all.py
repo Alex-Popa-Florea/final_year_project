@@ -76,7 +76,7 @@ def get_pegs(img, min_row, max_row, min_col, max_col):
     for key in matrixcoor_to_realcoor:
         cv2.circle(img_circle, matrixcoor_to_realcoor[key], 2, (200, 200, 200), -1)
 
-    return img_circle, matrixcoor_to_realcoor, (square_size_rows, square_size_cols)
+    return img_circle, matrixcoor_to_realcoor, (square_size_rows, square_size_cols), (row_sq_count, col_sq_count)
 
 def draws_pegs_on_rotated_board(image, draw_edge=True):
     boardBW = get_board_mask(image)
@@ -87,12 +87,12 @@ def draws_pegs_on_rotated_board(image, draw_edge=True):
  
     min_row, max_row, min_col, max_col = get_edges(boardBW_tilt)
 
-    img_circle, matrixcoor_to_realcoor, square_size = get_pegs(image_tilt, min_row, max_row, min_col, max_col)
+    img_circle, matrixcoor_to_realcoor, square_size, board_size = get_pegs(image_tilt, min_row, max_row, min_col, max_col)
 
     if draw_edge:
         cv2.rectangle(img_circle, (min_col, min_row), (max_col, max_row), (0, 255, 0), 3)
   
-    return matrixcoor_to_realcoor, square_size, image_tilt, img_circle, angle
+    return matrixcoor_to_realcoor, square_size, image_tilt, img_circle, angle, board_size
 
 color_mapping = {
     0: 'red', # done, battery

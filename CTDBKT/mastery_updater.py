@@ -22,7 +22,7 @@ class FullMasteries():
         for uid in uids:
             self.masteries[uid] = {}
             for sid in tasks.sid_skill_map:
-                self.masteries[sid] = 0.5
+                self.masteries[uid][sid] = 0.5
 
         for tid in tids:
             self.tasks[tid] = tasks.get_task(tid, uids)
@@ -30,29 +30,23 @@ class FullMasteries():
     def move_to_next_task(self, beliefs):
 
         for sid in beliefs:
-            for uid in beliefs[sid]:
-                self.masteries[uid][sid] = beliefs[sid][uid]
+            belief = beliefs[sid]
+            for uid in belief.users:
+                self.masteries[uid][sid] = belief.users[uid].H[-1]
 
         self.task_list_id += 1
 
     
     def get_current_task(self):
-        if self.tid < len(self.tids):
-            return True, self.tasks[self.tid[self.task_list_id]]
+        if self.task_list_id < len(self.tids):
+            return True, self.tasks[self.tids[self.task_list_id]], self.tids[self.task_list_id]
         else:
-            return False, None
+            return False, None, None
 
 def create_beliefs(task, uids, full_masteries):
     beliefs = {}
-
-    p_L_0s = {}
-    for sid in task.sids:
-        for uid in uids:
-            p_L_0s
-
     
     for sid in task.sids:
-
         p_L_0s = {}
         for uid in uids:
             p_L_0s[uid] = full_masteries.masteries[uid][sid]
@@ -73,21 +67,8 @@ def create_beliefs(task, uids, full_masteries):
         beliefs[sid] = skill_belief
     return beliefs
 
-
-def run_task(user_masteries, uids, unique_uids):
-    more_tasks, task = user_masteries.get_current_task()
-
-    if not more_tasks:
-        return False, None
-
-    beliefs = create_beliefs(task, uids, user_masteries)
-
+def initialise_cv():
     source = 1
-    store = True
-    show = True
-    
-    first_viable_frame = 0
-
     warnings.filterwarnings("ignore", category=UserWarning, module="google.protobuf.symbol_database")
 
     cap = cv2.VideoCapture(source)
@@ -96,22 +77,53 @@ def run_task(user_masteries, uids, unique_uids):
     model = YOLO('best (8).pt')
     detector = HandDetector(detectionCon=0.5, maxHands=4)
 
+    ret, frame = cap.read()
+    if not ret:
+        print("Camera Connection Failed")
+        return False, None
+
+    # Focus on board
+    frame_for_board, frame_for_hand = process_frame.crop_frame_general(frame, crop_size=300, crop_hand_size=550)
+
+    # We draw pegs on the board using the first frame. This is done because we assume that the board will remain stationary
+    # throughout the video. Drawing the pegs in the initial frame helps us avoid any shift or misalignment of the
+    # pegs when a piece moves near or past the edge of the board.
+    matrix_to_recolor, peg_size, frame_tilt, frame_circle, angle, board_size = virtual_board_all.draws_pegs_on_rotated_board(frame_for_board)
+
+    return True, (source, cap, model, detector, matrix_to_recolor, peg_size, frame_tilt, frame_circle, angle, board_size)
+
+def finish_cv(cap):
+    cap.release()
+    cv2.destroyAllWindows()
+
+def run_task(user_masteries, uids, unique_uids, source, cap, model, detector, matrix_to_recolor, peg_size, frame_tilt, frame_circle, angle, board_size, store=True, show=True):
+    more_tasks, task, tid = user_masteries.get_current_task()
+
+    if not more_tasks:
+        return False, None
+    
+    if show: cv2.imshow("Board with Pegs", frame_circle)
+
+    beliefs = create_beliefs(task=task, uids=uids, full_masteries=user_masteries)
+
     # initialize
     time_step_index = 0
-    board = matrix_to_pieces.initialise_board(90)
-    task = tasks.get_task("task1", uids)
+    if board_size[0] > board_size[1]:
+        board = matrix_to_pieces.initialise_board(90)
+    else:
+        board = matrix_to_pieces.initialise_board(0)
 
     # store video
-    if store: writer = store_as_video.store_video_titled(cv2.VideoCapture(source), unique_uids, user_masteries.tid)
+    if store: writer = store_as_video.store_video_titled(cv2.VideoCapture(source), unique_uids, tid)
 
     hands_over_board = {}
     for uid in uids:
         hands_over_board[uid] = []
     changed = False
 
-    beliefs = create_beliefs(task, {0: 0.5, 1: 0.5})
-
     while True:
+        start_time = time.time()
+
         # Capture a frame
         ret, frame = cap.read()
         if not ret:
@@ -122,89 +134,78 @@ def run_task(user_masteries, uids, unique_uids):
         # Store video
         if store: writer.write(frame)
 
-        if time_step_index >= first_viable_frame:
-            
-            # Focus on board
-            frame_for_board, frame_for_hand = process_frame.crop_frame(frame)
-            #frame_for_board, frame_for_hand = process_frame.crop_frame_home(frame)
-            # frame_for_board, frame_for_hand = process_frame.crop_frame_general(frame, crop_size=320)
-            if show: cv2.imshow("Board Frame Image", frame_for_board)
-            if show: cv2.imshow("Hand Frame Image", frame_for_hand)
-            
-            # We draw pegs on the board using the first frame. This is done because we assume that the board will remain stationary
-            # throughout the video. Drawing the pegs in the initial frame helps us avoid any shift or misalignment of the
-            # pegs when a piece moves near or past the edge of the board.
-            if time_step_index == first_viable_frame:
-                matrix_to_recolor, peg_size, frame_tilt, frame_circle, angle = virtual_board_all.draws_pegs_on_rotated_board(frame_for_board)
+        frame_for_board, frame_for_hand = process_frame.crop_frame_general(frame, crop_size=300, crop_hand_size=650)
+        if show: cv2.imshow("Board Frame Image", frame_for_board)
+        if show: cv2.imshow("Hand Frame Image", frame_for_hand)
+        
+        frame_tilt = virtual_board_all.tilt(frame_for_board, angle) 
+
+        # Detecting hand
+        hands, img = detector.findHands(frame_for_hand)
+        if show: cv2.imshow("First Hand Detected Image", img)
+
+        if not hands:
+            matrix, data, output = process_frame.process_frame_with_yolo(frame_tilt, model, matrix_to_recolor, peg_size)
+
+            user_0_time = len(hands_over_board[0])
+            user_1_time = len(hands_over_board[1])
+            total_time = user_0_time + user_1_time
+            if total_time != 0:
+                user_0_contribution = user_0_time / total_time
+                user_1_contribution = user_1_time / total_time
             else:
-                frame_tilt = virtual_board_all.tilt(frame_for_board, angle) 
+                user_0_contribution = 0
+                user_1_contribution = 0
 
-            if show: cv2.imshow("Board with Pegs", frame_circle)
-
-            # Detecting hand
-            hands, img = detector.findHands(frame_for_hand)
-            if show: cv2.imshow("Hand Detected Large Image", img)
-
-            if not hands:
-                matrix, data, output = process_frame.process_frame_with_yolo(frame_tilt, model, matrix_to_recolor, peg_size)
-
-                user_0_time = len(hands_over_board[0])
-                user_1_time = len(hands_over_board[1])
-                total_time = user_0_time + user_1_time
-                if total_time != 0:
-                    user_0_contribution = user_0_time / total_time
-                    user_1_contribution = user_1_time / total_time
-                else:
-                    user_0_contribution = 0
-                    user_1_contribution = 0
-
-                board, changed = matrix_to_pieces.data_to_board(board, data, output, frame_tilt, angle, {0: user_0_contribution, 1: user_1_contribution})
-                
-                
-                task.check_skills(board)
+            board, changed = matrix_to_pieces.data_to_board(board, data, output, frame_tilt, angle, {0: user_0_contribution, 1: user_1_contribution})
             
-            else:
-                # hand on board
-                print("\033[91mHand On Board!\033[0m")
-                hands, img = detector.findHands(frame_for_hand) #NOTEEEEE
-                if show: cv2.imshow("Hand Detected Image", img)
-                # for all hands, store the history of its center
-                for hand in hands:
-                    if hand['type'] == "ID: 0":
-                        hands_over_board[0].append(time_step_index)
-                    else:
-                        hands_over_board[1].append(time_step_index)
-
             if changed:
-                hands_over_board = {}
-                for uid in uids:
-                    hands_over_board[uid] = []
-                changed = False
-
-            for sid in beliefs:
-                c_ts = {}
-                for uid in uids:
-                    c_ts[uid] = task.cs[sid][uid]
-                beliefs[sid].step(task.os[sid], c_ts)
-
+                print(board.history)
             
+            task.check_skills(board)
+        
+        else:
+            # hand on board
+            print("\033[91mHand On Board!\033[0m")
+            print(hands)
+            # for all hands, store the history of its center
+            u_0_contributed = False
+            u_1_contributed = False
 
-        time.sleep(0.1) 
-        # Check for the 'q' key press to exit
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            for hand in hands:
+                if hand['type'] == "ID: 0" and not u_0_contributed:
+                    u_0_contributed = True
+                    hands_over_board[0].append(time_step_index)
+                if hand['type'] == "ID: 1" and not u_1_contributed:
+                    u_1_contributed = True
+                    hands_over_board[1].append(time_step_index)
 
-        if time_step_index > task.discussion_time + task.solve_time:
+        if changed:
+            hands_over_board = {}
+            for uid in uids:
+                hands_over_board[uid] = []
+            changed = False
+
+        for sid in beliefs:
+            c_ts = {}
+            for uid in uids:
+                c_ts[uid] = task.cs[sid][uid]
+            beliefs[sid].step(task.os[sid], c_ts)
+
+        end_time = time.time()
+        if end_time < start_time + 1:
+            print(start_time + 1 - end_time)
+            time.sleep(start_time + 1 - end_time)
+
+        if time_step_index >= task.discussion_time + task.solve_time:
             break
         time_step_index += 1
+        print(time_step_index)
         
     print("OUTPUTS: ")
     print(board.history)
     plot_beliefs(beliefs=beliefs)
 
-    # Release the webcam and close the windows
-    cap.release()
-    if store: writer.release() 
-    cv2.destroyAllWindows()
+    if store: writer.release()
 
     return True, beliefs

@@ -30,13 +30,16 @@ def crop_frame_home(frame, crop_x=580, crop_y=100, crop_width=720, crop_height=1
     return rotated_frame, frame_for_hand
 
 # crop frame to focus on board
-def crop_frame_general(frame, crop_size=520): #800 
+def crop_frame_general(frame, crop_size=450, crop_hand_size=600, x_offeset = 0, y_offset = 0): #800 
     x, y, _ = frame.shape
-    crop_x = (x - crop_size) // 2
-    crop_y = (y - crop_size) // 2
+    crop_x = (x - crop_size) // 2 + x_offeset
+    crop_y = (y - crop_size) // 2 + y_offset
     frame_for_veri = frame[crop_x:crop_x + crop_size, crop_y:crop_y + crop_size]
     
-    frame_for_hand = frame 
+    crop_x_hands = (x - crop_hand_size) // 2 + x_offeset
+    crop_y_hands = (y - crop_hand_size) // 2 + y_offset
+
+    frame_for_hand = frame[crop_x_hands:crop_x_hands + crop_hand_size, crop_y_hands:crop_y_hands + crop_hand_size] 
     
     rotated_frame = cv2.rotate(frame_for_veri, cv2.ROTATE_90_CLOCKWISE)
     

@@ -125,8 +125,18 @@ class Board:
                 self.remove_piece(old_piece_id, contr)
         return changes
 
+    def fits_in_board(self, piece):
+        for row_index, col in enumerate(piece.stud_matrix):
+            for col_index, value in enumerate(col):
+                if piece.position[0] + row_index >= self.rows or  piece.position[0] + row_index < 0:
+                    return False
+                if piece.position[1] + col_index >= self.cols or piece.position[1] + col_index < 0:
+                    return False
+        return True
 
     def add_piece(self, piece, contr={}):
+        if not self.fits_in_board(piece=piece):
+            return 0
         self.pieces[piece.name] = piece
         connection_formed = False
         for row_index, col in enumerate(piece.stud_matrix):
@@ -159,7 +169,7 @@ class Board:
         _, connection_count = self.get_connections(piece_id)
         for row_index, col in enumerate(piece.stud_matrix):
             for col_index, _ in enumerate(col):
-                self.pegs[piece.position[0] + row_index][piece.position[1] + col_index].pop(piece.name)
+                self.pegs[piece.position[0] + row_index][piece.position[1] + col_index].pop(piece_id)
         self.pieces.pop(piece_id)
 
         for uid in contr:

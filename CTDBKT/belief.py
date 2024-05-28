@@ -89,7 +89,7 @@ class UserSkillBelief():
 
         p_H_given_o = self.c[i] * contributed + (1 - self.c[i]) * not_contributed
 
-        return p_H_given_o + (1 - p_H_given_o) * (self.p_T * other_c_t * self.o[i]) 
+        return p_H_given_o + (1 - p_H_given_o) * (self.p_T * other_c_t * other_H * self.o[i]) 
             
 
     def p_observation_given_A(self, o_t, A):
