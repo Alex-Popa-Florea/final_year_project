@@ -97,6 +97,7 @@ def finish_cv(cap):
     cv2.destroyAllWindows()
 
 def run_task(user_masteries, uids, unique_uids, source, cap, model, detector, matrix_to_recolor, peg_size, frame_tilt, frame_circle, angle, board_size, store=True, show=True):
+
     more_tasks, task, tid = user_masteries.get_current_task()
 
     if not more_tasks:
@@ -134,7 +135,7 @@ def run_task(user_masteries, uids, unique_uids, source, cap, model, detector, ma
         # Store video
         if store: writer.write(frame)
 
-        frame_for_board, frame_for_hand = process_frame.crop_frame_general(frame, crop_size=300, crop_hand_size=650)
+        frame_for_board, frame_for_hand = process_frame.crop_frame_general(frame, crop_size=300, crop_hand_size=500)
         if show: cv2.imshow("Board Frame Image", frame_for_board)
         if show: cv2.imshow("Hand Frame Image", frame_for_hand)
         
@@ -157,16 +158,18 @@ def run_task(user_masteries, uids, unique_uids, source, cap, model, detector, ma
                 user_0_contribution = 0
                 user_1_contribution = 0
 
-            board, changed = matrix_to_pieces.data_to_board(board, data, output, frame_tilt, angle, {0: user_0_contribution, 1: user_1_contribution})
+            board, changed = matrix_to_pieces.data_to_board(board, data, output, frame_tilt, angle, time_step_index, {0: user_0_contribution, 1: user_1_contribution})
             
             if changed:
-                print(board.history)
+                print(time_step_index)
+                print(board)
             
             task.check_skills(board)
         
         else:
             # hand on board
             print("\033[91mHand On Board!\033[0m")
+            print(time_step_index)
             print(hands)
             # for all hands, store the history of its center
             u_0_contributed = False
@@ -200,10 +203,10 @@ def run_task(user_masteries, uids, unique_uids, source, cap, model, detector, ma
         if time_step_index >= task.discussion_time + task.solve_time:
             break
         time_step_index += 1
-        print(time_step_index)
         
     print("OUTPUTS: ")
     print(board.history)
+    print(board)
     plot_beliefs(beliefs=beliefs)
 
     if store: writer.release()

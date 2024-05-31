@@ -15,32 +15,33 @@ class StudType(Enum):
     SIGNAL = 8
 
 class HistoryElement():
-    def __init__(self, elem_type, move, contr_percentage) -> None:
+    def __init__(self, elem_type, move, contr_percentage, time) -> None:
         self.elem_type = elem_type
         self.move = move
         self.contr_percentage = contr_percentage
+        self.time = time
     
     def __str__(self):
-        return f"{self.elem_type} {self.move} {self.contr_percentage}"
+        return f"{self.elem_type} {self.move} {self.contr_percentage} {self.time}"
 
 class PieceHistoryElement(HistoryElement):
-    def __init__(self, piece_id, piece_type, move, contr_percentage) -> None:
+    def __init__(self, piece_id, piece_type, move, contr_percentage, time) -> None:
         self.piece_id = piece_id
         self.piece_type = piece_type
-        super().__init__(elem_type="piece", move=move, contr_percentage=contr_percentage)
+        super().__init__(elem_type="piece", move=move, contr_percentage=contr_percentage, time=time)
 
     def __str__(self):
-        return f"{self.piece_id} {self.piece_type} {self.elem_type} {self.move} {self.contr_percentage}"
+        return f"{self.piece_id} {self.piece_type} {self.elem_type} {self.move} {self.contr_percentage} {self.time}"
 
 class StudDirectionHistoryElement(HistoryElement):
-    def __init__(self, piece_id, piece_type, stud_type, move, contr_percentage) -> None:
+    def __init__(self, piece_id, piece_type, stud_type, move, contr_percentage, time) -> None:
         self.piece_id = piece_id
         self.piece_type = piece_type
         self.stud_type = stud_type
-        super().__init__(elem_type="stud_direction", move=move, contr_percentage=contr_percentage)
+        super().__init__(elem_type="stud_direction", move=move, contr_percentage=contr_percentage, time=time)
 
     def __str__(self):
-        return f"{self.piece_id} {self.piece_type} {self.stud_type} {self.elem_type} {self.move} {self.contr_percentage}"
+        return f"{self.piece_id} {self.piece_type} {self.stud_type} {self.elem_type} {self.move} {self.contr_percentage} {self.time}"
 
 class History():
     def __init__(self, uids) -> None:
@@ -60,14 +61,14 @@ class History():
             string += "\n"
         return string
 
-    def add_elem(self, uid, elem_type, move, contr_percentage):
-        self.obs_history[uid].append(HistoryElement(elem_type, move, contr_percentage))
+    def add_elem(self, uid, elem_type, move, contr_percentage, time):
+        self.obs_history[uid].append(HistoryElement(elem_type, move, contr_percentage, time))
 
-    def add_piece_elem(self, uid, piece_id, piece_type, move, contr_percentage):
-        self.obs_history[uid].append(PieceHistoryElement(piece_id, piece_type, move, contr_percentage))
+    def add_piece_elem(self, uid, piece_id, piece_type, move, contr_percentage, time):
+        self.obs_history[uid].append(PieceHistoryElement(piece_id, piece_type, move, contr_percentage, time))
 
-    def add_stud_direction_elem(self, uid, piece_id, piece_type, stud_type, move, contr_percentage):
-        self.obs_history[uid].append(StudDirectionHistoryElement(piece_id, piece_type, stud_type, move, contr_percentage))
+    def add_stud_direction_elem(self, uid, piece_id, piece_type, stud_type, move, contr_percentage, time):
+        self.obs_history[uid].append(StudDirectionHistoryElement(piece_id, piece_type, stud_type, move, contr_percentage, time))
 
 class Board:
     def __init__(self, direction):
@@ -102,7 +103,7 @@ class Board:
                 return True
         return False
 
-    def swap_pieces(self, pieces, contr={}):
+    def swap_pieces(self, pieces, time, contr={}):
         changes = False
         found_pieces = {}
         for old_piece_id in self.pieces:
@@ -117,12 +118,12 @@ class Board:
                     found = True
             if not found:
                 changes = True
-                self.add_piece(new_piece, contr)
+                self.add_piece(new_piece, time, contr)
         
         for old_piece_id in found_pieces:
             if not found_pieces[old_piece_id]:
                 changes = True
-                self.remove_piece(old_piece_id, contr)
+                self.remove_piece(old_piece_id, time, contr)
         return changes
 
     def fits_in_board(self, piece):
@@ -134,7 +135,7 @@ class Board:
                     return False
         return True
 
-    def add_piece(self, piece, contr={}):
+    def add_piece(self, piece, time, contr={}):
         if not self.fits_in_board(piece=piece):
             return 0
         self.pieces[piece.name] = piece
@@ -151,20 +152,20 @@ class Board:
         flow_found, num_flows, correct_studs = self.find_flow()
         
         for uid in contr:
-            self.history.add_piece_elem(uid, piece.name, piece.type, "added", contr[uid])
+            self.history.add_piece_elem(uid, piece.name, piece.type, "added", contr[uid], time)
             if connection_formed:
-                self.history.add_elem(uid, "connection", "added", contr[uid])
+                self.history.add_elem(uid, "connection", "added", contr[uid], time)
             if flow_found:
-                self.history.add_elem(uid, "closed", "added", contr[uid])
+                self.history.add_elem(uid, "closed", "added", contr[uid], time)
                 for stud in correct_studs:
-                    self.history.add_stud_direction_elem(uid, stud[0], stud[1], stud[2], "added", contr[uid])
+                    self.history.add_stud_direction_elem(uid, stud[0], stud[1], stud[2], "added", contr[uid], time)
                 if num_flows == 1:
-                    self.history.add_elem(uid, "series", "added", contr[uid])
+                    self.history.add_elem(uid, "series", "added", contr[uid], time)
                 if num_flows > 1:
-                    self.history.add_elem(uid, "parallel", "added", contr[uid])
+                    self.history.add_elem(uid, "parallel", "added", contr[uid], time)
         return connection_formed
         
-    def remove_piece(self, piece_id, contr={}):
+    def remove_piece(self, piece_id, time, contr={}):
         piece = self.pieces[piece_id]
         _, connection_count = self.get_connections(piece_id)
         for row_index, col in enumerate(piece.stud_matrix):
@@ -173,9 +174,9 @@ class Board:
         self.pieces.pop(piece_id)
 
         for uid in contr:
-            self.history.add_piece_elem(uid, piece.name, piece.type, "removed", contr[uid])
+            self.history.add_piece_elem(uid, piece.name, piece.type, "removed", contr[uid], time)
             if connection_count > 0:
-                self.history.add_elem(uid, "connection", "removed", contr[uid])
+                self.history.add_elem(uid, "connection", "removed", contr[uid], time)
         return connection_count > 0
 
     def get_connections(self, piece_id):

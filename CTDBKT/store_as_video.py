@@ -23,7 +23,7 @@ def store_video(cap):
     output_path = os.path.join('raw_videos', f"raw_video_{video_count}.mp4")
     
     # Set up the VideoWriter with the same frame size and a frame rate of 20 frames per second
-    writer = cv2.VideoWriter(output_path, fourcc, 20.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+    writer = cv2.VideoWriter(output_path, fourcc, 1.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     
     # Return the VideoWriter object
     return writer
@@ -41,7 +41,7 @@ def store_video_titled(cap, unique_uids, tid):
     output_path = os.path.join('user_study', f"user_study_{str(unique_uids)}_{str(tid)}.mp4")
     
     # Set up the VideoWriter with the same frame size and a frame rate of 20 frames per second
-    writer = cv2.VideoWriter(output_path, fourcc, 20.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+    writer = cv2.VideoWriter(output_path, fourcc, 1.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     
     # Return the VideoWriter object
     return writer

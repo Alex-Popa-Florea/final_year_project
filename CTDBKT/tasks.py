@@ -229,12 +229,12 @@ class TaskObservations():
 
 def get_task(tid, uids):
     if tid == "task1":
-        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a switch", [5, 8, 9, 13, 14], uids)
+        return TaskObservations("Build a circuit with a lamp that can be turned on and off using a switch", [5, 8, 9, 13, 14], uids, discussion_time=60, solve_time=60)
     if tid == "task2":
-        return TaskObservations("Build a circuit with a led and motor in series that can be turned on and off using a button", [4, 7, 9, 12, 13, 14, 15, 17, 18], uids)
+        return TaskObservations("Build a circuit with a led and motor in series that can be turned on and off using a button", [4, 7, 9, 12, 13, 14, 15, 17, 18], uids, discussion_time=60, solve_time=75)
     if tid == "task3":
-        return TaskObservations("Build a circuit with a led and lamp where the led is turned on by a switch and the lamp by a button", [4, 5, 7, 8, 9, 13, 14, 16, 17, 18], uids)
+        return TaskObservations("Build a circuit with an led is turned on and off by a switch and the lamp is turned on and off by a button", [4, 5, 7, 8, 9, 13, 14, 16, 17, 18], uids, discussion_time=120, solve_time=125)
     if tid == "task4":
-        return TaskObservations("Build a circuit with a music box plays music through a speaker when a switch is turned on once then stops", [5, 9, 10, 11, 13, 22, 23, 24], uids)
+        return TaskObservations("Build a circuit with a music box plays music through a speaker when a switch is turned on once then stops", [5, 9, 10, 11, 13, 22, 23, 24], uids, discussion_time=240, solve_time=165)
 
 

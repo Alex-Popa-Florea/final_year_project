@@ -148,7 +148,7 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         
         return direction
 
-def data_to_board(board, data, output, frame_tilt, angle, contribution={}):
+def data_to_board(board, data, output, frame_tilt, angle, time, contribution={}):
 
     present_pieces = []
 
@@ -346,5 +346,5 @@ def data_to_board(board, data, output, frame_tilt, angle, contribution={}):
             else:
                 pass
 
-    changes = board.swap_pieces(present_pieces, contribution)
+    changes = board.swap_pieces(present_pieces, time, contribution)
     return board, changes
