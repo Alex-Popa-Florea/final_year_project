@@ -200,7 +200,7 @@ def adjust_size(data_item, direct):
         new_peg_overlap, pegs_removed = fix_side("row", rows, first_row, last_row, correct_rows, new_peg_overlap)
         for peg in pegs_removed:
             total_pegs_removed[peg] = pegs_removed[peg]
-    if data_item["type"] == "wire" and direct == "up_down":
+    elif data_item["type"] == "wire" and direct == "up_down":
         new_peg_overlap, pegs_removed = fix_side("col", cols, first_col, last_col, correct_cols, new_peg_overlap)
         for peg in pegs_removed:
             total_pegs_removed[peg] = pegs_removed[peg]
@@ -243,6 +243,7 @@ def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size):
                 overlap = is_in_peg(peg_center, peg_size, piece)
 
                 if overlap != -1:
+                    matrix[peg].append(piece)
                     if smallest_row > row:
                         smallest_row = row
                     if smallest_col > col:
@@ -263,7 +264,5 @@ def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size):
 
             if correct_size:
                 data.append(new_data_item)
-                for peg in new_data_item["pegs_kept"]:
-                    matrix[peg].append(piece)
             
     return matrix, data

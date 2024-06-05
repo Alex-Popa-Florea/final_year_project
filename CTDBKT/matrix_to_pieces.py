@@ -148,7 +148,7 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         
         return direction
 
-def data_to_board(board, data, output, frame_tilt, angle, time, contribution={}):
+def data_to_board(board, data, output, frame_tilt, angle, time, contribution={}, someone_contributed=True):
 
     present_pieces = []
 
@@ -346,5 +346,9 @@ def data_to_board(board, data, output, frame_tilt, angle, time, contribution={})
             else:
                 pass
 
-    changes = board.swap_pieces(present_pieces, time, contribution)
+    changes = board.swap_pieces(present_pieces, time, contribution, someone_contributed)
+    
+    board_image = board.show_board()
+    final_image_bgr = cv2.cvtColor(np.array(board_image), cv2.COLOR_RGB2BGR)
+    cv2.imshow("Virtual Board Newer", final_image_bgr)
     return board, changes

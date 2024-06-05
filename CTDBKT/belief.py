@@ -87,7 +87,9 @@ class UserSkillBelief():
         p_observation_given_o_0_A_1 = self.p_observation_given_A(o_t = False, A = True)
         not_contributed = (p_L * (p_A_given_i * p_S + (1 - p_A_given_i))) / (p_A_given_i * p_observation_given_o_0_A_1 + (1 - p_A_given_i))
 
-        p_H_given_o = self.c[i] * contributed + (1 - self.c[i]) * not_contributed
+        c = min(1, self.c[i] * 2)
+
+        p_H_given_o = c * contributed + (1 - c) * not_contributed
 
         return p_H_given_o + (1 - p_H_given_o) * (self.p_T * other_c_t * other_H * self.o[i]) 
             
@@ -128,6 +130,8 @@ def plot_beliefs(beliefs):
         plt.yticks([0, 0.2, 0.4, 0.6, 0.8, 1])
         plt.show()
 
+        #print(np.array(belief.o))
+
         for uid in belief.users:
 
 
@@ -140,3 +144,6 @@ def plot_beliefs(beliefs):
 
             plt.yticks([0, 0.2, 0.4, 0.6, 0.8, 1])
             plt.show()
+
+            #print(np.array(belief.users[uid].H))
+

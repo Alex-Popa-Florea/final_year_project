@@ -1,6 +1,6 @@
 import numpy as np
-import tasks
 from enum import Enum
+from PIL import Image, ImageDraw, ImageFont
 
 class StudType(Enum):
     NONE = 0
@@ -13,6 +13,39 @@ class StudType(Enum):
     REPEAT = 6
     RESTART = 7
     SIGNAL = 8
+
+color_mapping = {
+    'fm': 'red', # done, battery
+    '': 'green', # done, buzzer
+    3: 'orange',
+    4: 'limegreen', #done, fm
+    5: 'grey', # done (lamp; check accuracy)
+    6: 'darkred', # done, led
+    7: 'blue', # mc
+    8: 'yellow', # done, motor
+    9: 'royalblue', # done, push button
+    10: 'seagreen', # done, reed
+    11: 'firebrick', # done, speaker
+    12: 'darkgreen', # done, switch
+    13: 'purple', # done, wire
+    14: 'white' # done, connection
+}
+
+color_mapping = {
+    'wire': 'purple',
+    'fm': 'limegreen',
+    'buzzer': 'green',
+    'reed_switch': 'seagreen',
+    'button_switch': 'royalblue',
+    'switch': 'darkgreen',
+    'cds': 'orange',
+    'led': 'darkred',
+    'lamp': 'yellow',
+    'battery': 'red',
+    'speaker': 'firebrick',
+    'mc': 'blue',
+    'motor': 'grey'
+}
 
 class HistoryElement():
     def __init__(self, elem_type, move, contr_percentage, time) -> None:
@@ -97,13 +130,68 @@ class Board:
             string += "\n"
         return string
 
+    def show_board(self, cell_size = 100):
+
+        # Calculate the total size of the image
+        image_width = self.cols * cell_size
+        image_height = self.rows * cell_size
+
+        # Create a new image with a black background
+        image = Image.new("RGB", (image_width, image_height), color="black")
+
+        # Create a draw object
+        draw = ImageDraw.Draw(image)
+
+        # Draw the grid with numbers
+        for row_index, col in enumerate(self.pegs):
+            for col_index, items in enumerate(col):
+
+                # Calculate the position of the top-left corner of the cell
+                x1 = col_index * cell_size
+                y1 = row_index * cell_size
+
+                # Calculate the position of the bottom-right corner of the cell
+                x2 = x1 + cell_size
+                y2 = y1 + cell_size
+
+                if len(items) == 1:
+                    for item in items:
+                        piece = self.pieces[item]
+                        color = color_mapping[piece.type]
+                        
+                        stud = piece.stud_matrix[row_index - piece.position[0], col_index - piece.position[1]]
+
+                        label = f'{item}:{stud}'
+
+                    # Draw the cell with the corresponding number
+                    draw.rectangle([x1, y1, x2, y2], fill=color, outline='white')
+                elif len(items) > 1:
+                    label = ''
+                    color = 'thistle'
+                    for item in items:
+                        piece = self.pieces[item]
+                        
+                        stud = piece.stud_matrix[row_index - piece.position[0], col_index - piece.position[1]]
+
+                        label += f'{item}:{stud}, \n'
+
+                    # Draw the cell with the corresponding number
+                    draw.rectangle([x1, y1, x2, y2], fill=color, outline='white')
+                else:
+                    label = ''
+                    draw.rectangle([x1, y1, x2, y2], fill="black", outline='white')
+                
+                draw.text((x1 + 20, y1 + 20), label,  fill="white")
+
+        return image
+
     def find_piece(self, piece_type):
         for piece in self.pieces:
             if self.pieces[piece].type == piece_type:
                 return True
         return False
 
-    def swap_pieces(self, pieces, time, contr={}):
+    def swap_pieces(self, pieces, time, contr={}, someone_contributed=True):
         changes = False
         found_pieces = {}
         for old_piece_id in self.pieces:
@@ -114,14 +202,19 @@ class Board:
             for old_piece_id in found_pieces:
                 old_piece = self.pieces[old_piece_id]
                 if new_piece.type == old_piece.type and new_piece.position == old_piece.position and new_piece.direction == old_piece.direction:
-                    found_pieces[old_piece_id] = True
-                    found = True
+                    if new_piece.type == "wire":
+                        if new_piece.size == old_piece.size:
+                            found_pieces[old_piece_id] = True
+                            found = True
+                    else:
+                        found_pieces[old_piece_id] = True
+                        found = True
             if not found:
                 changes = True
                 self.add_piece(new_piece, time, contr)
         
         for old_piece_id in found_pieces:
-            if not found_pieces[old_piece_id]:
+            if not found_pieces[old_piece_id] and someone_contributed:
                 changes = True
                 self.remove_piece(old_piece_id, time, contr)
         return changes
@@ -216,7 +309,7 @@ class Board:
                                 piece_list.append(path)
                                 for correct_stud in correct_studs:
                                     all_correct_studs.append(correct_stud)
-
+        
         return overall_flow_found, overall_num_flows, all_correct_studs
 
     def flow_step(self, piece_id, con_value, visited):
@@ -351,6 +444,7 @@ class Battery(Piece):
 class Wire(Piece):
     w_id = 1
     def __init__(self, name, position, direction, size): 
+        self.size = size
         if direction == 0:
             stud_matrix = np.zeros([1, size])
             for j in range(size):
@@ -405,7 +499,7 @@ class ReedSwitch(ThreeLengthUnpoledPiece):
 class ButtonSwitch(ThreeLengthUnpoledPiece):
     bsw_id = 1
     def __init__(self, name, position, direction): 
-        super().__init__(name=name, type="button_switch)", position=position, direction=direction)
+        super().__init__(name=name, type="button_switch", position=position, direction=direction)
 
 class Switch(ThreeLengthUnpoledPiece):
     sw_id = 1
@@ -506,7 +600,6 @@ class Motor(Piece):
             stud_matrix[0, 0] = StudType.POSITIVE.value
             stud_matrix[2, 0] = StudType.NEGATIVE.value
         super().__init__(name=name, type="motor", stud_matrix=stud_matrix, position=position, direction=direction, is_special=True)
-
 
 
 # board = Board(direction=0)

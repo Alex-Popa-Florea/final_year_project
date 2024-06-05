@@ -109,7 +109,7 @@ color_mapping = {
     11: 'firebrick', # done, speaker
     12: 'darkgreen', # done, switch
     13: 'purple', # done, wire
-    14: 'white' # done, connection
+    14: 'thistle' # done, connection
 }
 
 def show_estimated_board(results_transferred, color_mapping=color_mapping, cell_size = 50):

@@ -1,16 +1,5 @@
 from enum import Enum
-
-class StudType(Enum):
-    NONE = 0
-    POSITIVE = 1
-    NEGATIVE = -1
-    ANY = 2
-    IN = 3
-    OUT = 4
-    TRIGGER = 5
-    REPEAT = 6
-    RESTART = 7
-    SIGNAL = 8
+from pieces import StudType
 
 class SkillProbs():
     def __init__(self, prob_slipping=0.1, prob_guessing=0.2, prob_learning=0.7) -> None:
@@ -54,8 +43,8 @@ sid_skill_map = {
     14: Skill("close_circuit", "closed", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.4)),
     15: Skill("series_circuit", "series", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.5)),
     16: Skill("parallel_circuit", "parallel", SkillProbs(prob_guessing=0.1, prob_slipping=0.3, prob_learning=0.5)),
-    17: StudDirectionSkill("led_pos_stud", "led", StudType.POSITIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
-    18: StudDirectionSkill("led_neg_stud", "led", StudType.NEGATIVE, SkillProbs(prob_guessing=0.5, prob_slipping=0.2, prob_learning=0.6)),
+    17: StudDirectionSkill("led_pos_stud", "led", StudType.POSITIVE, SkillProbs(prob_guessing=0.3, prob_slipping=0.2, prob_learning=0.6)),
+    18: StudDirectionSkill("led_neg_stud", "led", StudType.NEGATIVE, SkillProbs(prob_guessing=0.3, prob_slipping=0.2, prob_learning=0.6)),
     19: StudDirectionSkill("fm_in_stud", "fm", StudType.IN, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
     20: StudDirectionSkill("fm_out_stud", "fm", StudType.OUT, SkillProbs(prob_guessing=0.1, prob_slipping=0.4, prob_learning=0.5)),
     21: StudDirectionSkill("fm_signal_stud", "fm", StudType.SIGNAL, SkillProbs(prob_guessing=0.1, prob_slipping=0.5, prob_learning=0.5)),
@@ -199,7 +188,7 @@ class TaskObservations():
                 uid_c = 0
                 for history_elem in uid_hist:
                     if history_elem.elem_type == "stud_direction":
-                        if history_elem.piece_type == piece_type and history_elem.stud_type == stud_type and history_elem.move == "added":
+                        if history_elem.piece_type == piece_type and history_elem.stud_type.value == stud_type.value and history_elem.move == "added":
                             uid_c = max(uid_c, history_elem.contr_percentage)
                 c[uid] = uid_c
             else:

@@ -80,7 +80,7 @@ const TaskTimer: React.FC = () => {
       {showStartScreen && (
         <div>
           <h1>Welcome to Collaborative Electronic Circuit Builder</h1>
-          <p>This application will guide you through a series of electric circuit building tasks. Each task has a set duration, shown in seconds. At the 10 second remaining mark, a sound will play notifing you of the time. Once the time is up, you'll be prompted to remove all pieces from the board before moving on to the next task. Please build all circuits within the board space and keep your hands by your side when not interacting with or pointing to pieces or the board.</p>
+          <p>This application will guide you through a series of electric circuit building tasks. Each task has a set duration, shown in seconds. At the 10 second remaining mark, a sound will play notifing you of the time. Once the time is up, you'll be prompted to remove all pieces from the board before moving on to the next task. Please build all circuits within the board space and keep your hands by your side when not interacting with or pointing to pieces or the board. Every time you place a piece down please put your hands away.</p>
           <button className="next-task-button" onClick={handleBeginTasks}>Begin tasks</button>
         </div>
       )}
