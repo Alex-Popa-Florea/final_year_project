@@ -51,6 +51,7 @@ class_size_map = {
     'wire': (1, 2)
 }
 
+# Gets the direction of a piece
 def get_direction(piece):
     px1, py1, px2, py2, _ = piece
     left_piece = min(px1, px2)
@@ -65,6 +66,7 @@ def get_direction(piece):
     
     return direct
 
+# Function which finds how much of a piece is on a pegs square
 def is_in_peg(peg_center, peg_size, piece):
     row_size, col_size = peg_size
 
@@ -95,6 +97,7 @@ def is_in_peg(peg_center, peg_size, piece):
     else:
         return -1
 
+# Finds which side to remove and removes it
 def fix_side(side_name, pegs_along_side, first_peg, last_peg, correct_pegs, old_peg_overlap):
     new_peg_overlap = old_peg_overlap.copy()
     pegs_removed = {}
@@ -148,6 +151,9 @@ def fix_side(side_name, pegs_along_side, first_peg, last_peg, correct_pegs, old_
         old_peg_overlap = new_peg_overlap.copy()
     return new_peg_overlap, pegs_removed
 
+
+# Function which adjusts the size of a piece on the board when the computer vision detects it is larger than expected.
+# Removes pegs based on the row or column with the lowest overlap with the peg
 def adjust_size(data_item, direct):
 
     old_peg_overlap = data_item["pegs_kept"]
@@ -219,10 +225,10 @@ def adjust_size(data_item, direct):
     return True, new_data_item
 
 def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size): 
-    matrix = {}
+    # matrix = {}
     data = []
-    for peg in matrixcoor_to_realcoor:
-        matrix[peg] = []
+    # for peg in matrixcoor_to_realcoor:
+    #     matrix[peg] = []
 
     for piece in results:
         _, _, _, _, class_id = piece
@@ -243,7 +249,7 @@ def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size):
                 overlap = is_in_peg(peg_center, peg_size, piece)
 
                 if overlap != -1:
-                    matrix[peg].append(piece)
+                    # matrix[peg].append(piece)
                     if smallest_row > row:
                         smallest_row = row
                     if smallest_col > col:
@@ -265,4 +271,4 @@ def piece_on_each_location(results, matrixcoor_to_realcoor, peg_size):
             if correct_size:
                 data.append(new_data_item)
             
-    return matrix, data
+    return data

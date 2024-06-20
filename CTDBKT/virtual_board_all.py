@@ -94,75 +94,75 @@ def draws_pegs_on_rotated_board(image, draw_edge=True):
   
     return matrixcoor_to_realcoor, square_size, image_tilt, img_circle, angle, board_size
 
-color_mapping = {
-    0: 'red', # done, battery
-    1: 'black', # board
-    2: 'green', # done, buzzer
-    3: 'orange',
-    4: 'limegreen', #done, fm
-    5: 'grey', # done (lamp; check accuracy)
-    6: 'darkred', # done, led
-    7: 'blue', # mc
-    8: 'yellow', # done, motor
-    9: 'royalblue', # done, push button
-    10: 'seagreen', # done, reed
-    11: 'firebrick', # done, speaker
-    12: 'darkgreen', # done, switch
-    13: 'purple', # done, wire
-    14: 'thistle' # done, connection
-}
+# color_mapping = {
+#     0: 'red', # done, battery
+#     1: 'black', # board
+#     2: 'green', # done, buzzer
+#     3: 'orange',
+#     4: 'limegreen', #done, fm
+#     5: 'grey', # done (lamp; check accuracy)
+#     6: 'darkred', # done, led
+#     7: 'blue', # mc
+#     8: 'yellow', # done, motor
+#     9: 'royalblue', # done, push button
+#     10: 'seagreen', # done, reed
+#     11: 'firebrick', # done, speaker
+#     12: 'darkgreen', # done, switch
+#     13: 'purple', # done, wire
+#     14: 'thistle' # done, connection
+# }
 
-def show_estimated_board(results_transferred, color_mapping=color_mapping, cell_size = 50):
-    """Draw the virtual image of the board
+# def show_estimated_board(results_transferred, color_mapping=color_mapping, cell_size = 50):
+#     """Draw the virtual image of the board
 
-    Args:
-        results_transferred (matrix): a matrix to store class of each block of the board
-        rows (int, optional): number of rows of the grid. Defaults to 8.
-        cols (int, optional): number of columns of the grid. Defaults to 7.
-        cell_size (int, optional): size of cell. Defaults to 50.
-    """
-    # Row and Col
-    for row, col in results_transferred:
-        rows = row
-        cols = col
-    rows += 1
-    cols += 1
+#     Args:
+#         results_transferred (matrix): a matrix to store class of each block of the board
+#         rows (int, optional): number of rows of the grid. Defaults to 8.
+#         cols (int, optional): number of columns of the grid. Defaults to 7.
+#         cell_size (int, optional): size of cell. Defaults to 50.
+#     """
+#     # Row and Col
+#     for row, col in results_transferred:
+#         rows = row
+#         cols = col
+#     rows += 1
+#     cols += 1
 
-    # Calculate the total size of the image
-    image_width = cols * cell_size
-    image_height = rows * cell_size
+#     # Calculate the total size of the image
+#     image_width = cols * cell_size
+#     image_height = rows * cell_size
 
-    # Create a new image with a black background
-    image = Image.new("RGB", (image_width, image_height), color="black")
+#     # Create a new image with a black background
+#     image = Image.new("RGB", (image_width, image_height), color="black")
 
-    # Create a draw object
-    draw = ImageDraw.Draw(image)
+#     # Create a draw object
+#     draw = ImageDraw.Draw(image)
 
-    # Draw the grid with numbers
-    for row, col in results_transferred:
-        # Calculate the position of the top-left corner of the cell
-        x1 = col * cell_size
-        y1 = row * cell_size
+#     # Draw the grid with numbers
+#     for row, col in results_transferred:
+#         # Calculate the position of the top-left corner of the cell
+#         x1 = col * cell_size
+#         y1 = row * cell_size
 
-        # Calculate the position of the bottom-right corner of the cell
-        x2 = x1 + cell_size
-        y2 = y1 + cell_size
+#         # Calculate the position of the bottom-right corner of the cell
+#         x2 = x1 + cell_size
+#         y2 = y1 + cell_size
 
-        # Calculate the number for each cell (you can use any logic here)
-        if len(results_transferred[row, col]) == 1:
-            _, _, _, _, cell_number = results_transferred[row, col][0]
+#         # Calculate the number for each cell (you can use any logic here)
+#         if len(results_transferred[row, col]) == 1:
+#             _, _, _, _, cell_number = results_transferred[row, col][0]
 
-            # Draw the cell with the corresponding number
-            draw.rectangle([x1, y1, x2, y2], fill=color_mapping[cell_number],outline='white')
-        elif len(results_transferred[row, col]) > 1:
+#             # Draw the cell with the corresponding number
+#             draw.rectangle([x1, y1, x2, y2], fill=color_mapping[cell_number],outline='white')
+#         elif len(results_transferred[row, col]) > 1:
 
-            # Draw the cell with the corresponding number
-            cell_number = 14
-            draw.rectangle([x1, y1, x2, y2], fill=color_mapping[cell_number],outline='white')
-        else:
-            cell_number = -1
-            draw.rectangle([x1, y1, x2, y2], fill="black",outline='white')
+#             # Draw the cell with the corresponding number
+#             cell_number = 14
+#             draw.rectangle([x1, y1, x2, y2], fill=color_mapping[cell_number],outline='white')
+#         else:
+#             cell_number = -1
+#             draw.rectangle([x1, y1, x2, y2], fill="black",outline='white')
 
-        draw.text((x1 + 20, y1 + 20), str(cell_number),  fill="white")
+#         draw.text((x1 + 20, y1 + 20), str(cell_number),  fill="white")
     
-    return image
+#     return image

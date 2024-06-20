@@ -2,6 +2,7 @@ import numpy as np
 from enum import Enum
 from PIL import Image, ImageDraw, ImageFont
 
+# Stud Enum
 class StudType(Enum):
     NONE = 0
     POSITIVE = 1
@@ -14,23 +15,7 @@ class StudType(Enum):
     RESTART = 7
     SIGNAL = 8
 
-color_mapping = {
-    'fm': 'red', # done, battery
-    '': 'green', # done, buzzer
-    3: 'orange',
-    4: 'limegreen', #done, fm
-    5: 'grey', # done (lamp; check accuracy)
-    6: 'darkred', # done, led
-    7: 'blue', # mc
-    8: 'yellow', # done, motor
-    9: 'royalblue', # done, push button
-    10: 'seagreen', # done, reed
-    11: 'firebrick', # done, speaker
-    12: 'darkgreen', # done, switch
-    13: 'purple', # done, wire
-    14: 'white' # done, connection
-}
-
+# Mapping from piece to colour in the virtual representation
 color_mapping = {
     'wire': 'purple',
     'fm': 'limegreen',
@@ -47,6 +32,7 @@ color_mapping = {
     'motor': 'grey'
 }
 
+# Element in the board's history
 class HistoryElement():
     def __init__(self, elem_type, move, contr_percentage, time) -> None:
         self.elem_type = elem_type
@@ -57,6 +43,7 @@ class HistoryElement():
     def __str__(self):
         return f"{self.elem_type} {self.move} {self.contr_percentage} {self.time}"
 
+# Element in the board's history related to placing a piece
 class PieceHistoryElement(HistoryElement):
     def __init__(self, piece_id, piece_type, move, contr_percentage, time) -> None:
         self.piece_id = piece_id
@@ -66,6 +53,7 @@ class PieceHistoryElement(HistoryElement):
     def __str__(self):
         return f"{self.piece_id} {self.piece_type} {self.elem_type} {self.move} {self.contr_percentage} {self.time}"
 
+# Element in the board's history related to placing a piece in the correct direction
 class StudDirectionHistoryElement(HistoryElement):
     def __init__(self, piece_id, piece_type, stud_type, move, contr_percentage, time) -> None:
         self.piece_id = piece_id
@@ -75,6 +63,7 @@ class StudDirectionHistoryElement(HistoryElement):
 
     def __str__(self):
         return f"{self.piece_id} {self.piece_type} {self.stud_type} {self.elem_type} {self.move} {self.contr_percentage} {self.time}"
+
 
 class History():
     def __init__(self, uids) -> None:
@@ -132,17 +121,13 @@ class Board:
 
     def show_board(self, cell_size = 100):
 
-        # Calculate the total size of the image
         image_width = self.cols * cell_size
         image_height = self.rows * cell_size
 
-        # Create a new image with a black background
         image = Image.new("RGB", (image_width, image_height), color="black")
 
-        # Create a draw object
         draw = ImageDraw.Draw(image)
 
-        # Draw the grid with numbers
         for row_index, col in enumerate(self.pegs):
             for col_index, items in enumerate(col):
 
@@ -163,7 +148,6 @@ class Board:
 
                         label = f'{item}:{stud}'
 
-                    # Draw the cell with the corresponding number
                     draw.rectangle([x1, y1, x2, y2], fill=color, outline='white')
                 elif len(items) > 1:
                     label = ''
@@ -175,7 +159,6 @@ class Board:
 
                         label += f'{item}:{stud}, \n'
 
-                    # Draw the cell with the corresponding number
                     draw.rectangle([x1, y1, x2, y2], fill=color, outline='white')
                 else:
                     label = ''
@@ -185,12 +168,14 @@ class Board:
 
         return image
 
+    # Find a piece of a certain type the board
     def find_piece(self, piece_type):
         for piece in self.pieces:
             if self.pieces[piece].type == piece_type:
                 return True
         return False
 
+    # Function that takes a list of pieces and checks whether they are already on the board, adding them if not, and removing any pieces which are not in the list from the board
     def swap_pieces(self, pieces, time, contr={}, someone_contributed=True):
         changes = False
         found_pieces = {}
@@ -219,6 +204,7 @@ class Board:
                 self.remove_piece(old_piece_id, time, contr)
         return changes
 
+    # Checks that a piece can fit in a board
     def fits_in_board(self, piece):
         for row_index, col in enumerate(piece.stud_matrix):
             for col_index, value in enumerate(col):
@@ -228,6 +214,7 @@ class Board:
                     return False
         return True
 
+    # Adds a piece to the board
     def add_piece(self, piece, time, contr={}):
         if not self.fits_in_board(piece=piece):
             return 0
@@ -258,6 +245,7 @@ class Board:
                     self.history.add_elem(uid, "parallel", "added", contr[uid], time)
         return connection_formed
         
+    # Removes a piece from the board
     def remove_piece(self, piece_id, time, contr={}):
         piece = self.pieces[piece_id]
         _, connection_count = self.get_connections(piece_id)
@@ -272,6 +260,7 @@ class Board:
                 self.history.add_elem(uid, "connection", "removed", contr[uid], time)
         return connection_count > 0
 
+    # Gets all the connections of a piece
     def get_connections(self, piece_id):
 
         connections = {}
@@ -291,6 +280,8 @@ class Board:
                                 connection_count += 1
         return connections, connection_count
 
+    # Finds a completed circuit through which current can correctly flow
+    # Checks for pieces being in the correct direction and for the circuit to be closed
     def find_flow(self):
         overall_flow_found = False
         overall_num_flows = 0
@@ -312,6 +303,7 @@ class Board:
         
         return overall_flow_found, overall_num_flows, all_correct_studs
 
+    # Intermediary step in flow function
     def flow_step(self, piece_id, con_value, visited):
         found_closed = False
         all_correct_studs = []
@@ -600,23 +592,3 @@ class Motor(Piece):
             stud_matrix[0, 0] = StudType.POSITIVE.value
             stud_matrix[2, 0] = StudType.NEGATIVE.value
         super().__init__(name=name, type="motor", stud_matrix=stud_matrix, position=position, direction=direction, is_special=True)
-
-
-# board = Board(direction=0)
-
-# board.swap_pieces([Battery("b1", (0, 2), 0)], {0: 0.1, 1: 0.9})
-# board.swap_pieces([Battery("b2", (0, 2), 0), Wire("w1", (0, 0), 90, 3)], {0: 0.2, 1: 0.8})
-# board.swap_pieces([Battery("b3", (0, 2), 0), Wire("w4", (0, 0), 90, 3), Wire("w5", (0, 1), 90, 3)], {0: 0.3, 1: 0.7})
-# board.swap_pieces([Battery("b4", (0, 2), 0), Wire("w6", (0, 0), 90, 3), Wire("w7", (0, 1), 90, 3), Wire("w8", (0, 0), 0, 3)], {0: 0.4, 1: 0.6})
-# board.swap_pieces([Battery("b5", (0, 2), 0), Wire("w9", (0, 0), 90, 3), Wire("w10", (0, 1), 90, 3), Wire("w11", (0, 0), 0, 3), Wire("led1", (2, 0), 0, 3)], {0: 0.3, 1: 0.7})
-
-# test = tasks.TaskObservations("lol", [7, 9, 13, 14, 15, 16, 17], [0, 1])
-# print("\n")
-# print("BOARD")
-# print(board)
-# print("\n")
-# print("BOARD HISTORY")
-# print(board.history)
-# test.check_skills(board)
-# print("\n")
-# print(test)

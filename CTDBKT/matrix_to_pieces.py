@@ -3,10 +3,13 @@ import cv2
 import numpy as np
 import pieces_location
 
+# Create a new board based on a direction
 def initialise_board(board_direction):
     board = pieces.Board(board_direction)
     return board
 
+# Function adapted from Code taken from the 2023 Learning User Skills During a Collaborative Task UROP
+# Gets the bounding box of a given piece based on its kept pegs
 def bounding_box_shape_and_origin(coordinates):
     if not coordinates:
         return None
@@ -21,6 +24,8 @@ def bounding_box_shape_and_origin(coordinates):
 
     return rows, cols, (min_row, min_col)
 
+# Function adapted from Code taken from the 2023 Learning User Skills During a Collaborative Task UROP
+# Gets the contours of a piece
 def get_contours(img, imgContour, in_area=5, show=False):
     contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
@@ -56,15 +61,15 @@ def de_tilt(rotated, angle):
 
     return de_rotated
 
-def get_ports_location(data_item, direct, output, frame_tilt, angle):
-    # crop the piece out
+# Finds the exact direction of an LED, Music Box or Radio based on the position of the colours sticker on them.
+# Takes the piece, the frame, the angle of the frame, and whether the piece is vertical or horizontal
+def get_piece_direction(data_item, vertical_or_horizontal, output, frame_tilt, angle):
     y1, x1, y2, x2 = [o[:-1] for o in output if o[-1] == pieces_location.class_id_mapping_reverse[data_item["type"]]][0]
     frame_focus = frame_tilt[int(x1):int(x2),int(y1):int(y2)]
     cv2.imshow('frame_focus', frame_focus)
-    width_focus, height_focus = int(y2-y1), int(x2-x1) # horizontal length, vertical length of frame   
+    width_focus, height_focus = int(y2-y1), int(x2-x1) 
     cv2.waitKey(1)
     
-    # apply masking on tape for directionality
     imgHSV = cv2.cvtColor(frame_focus, cv2.COLOR_BGR2HSV)
 
     if data_item["type"] == 'fm':
@@ -72,21 +77,21 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         cv2.imshow('mask', mask)
         cv2.waitKey(1)
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask) 
-        contours_out = get_contours(mask,result, in_area=24, show=True) # in_area to be tuned (depending on distance between camera and board)
+        contours_out = get_contours(mask,result, in_area=24, show=True)
         
-        if direct == "left_right":  
+        if vertical_or_horizontal == "left_right":  
             direction = 0
         else:
             direction = 90
 
         if contours_out:
             x, y, _, _ = contours_out
-            if direct == "left_right":
+            if vertical_or_horizontal == "left_right":
                 if x > width_focus // 2 and y < height_focus // 2:
                     direction = 0
                 elif x < width_focus // 2 and y > height_focus // 2:
                     direction = 180
-            elif direct == "up_down":
+            elif vertical_or_horizontal == "up_down":
                 if x > width_focus // 2 and y > height_focus // 2:
                     direction = 90
                 elif x < width_focus // 2 and y < height_focus // 2:
@@ -100,21 +105,21 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         cv2.imshow('mask', mask)
         cv2.waitKey(1)
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask)
-        contours_out = get_contours(mask,result, in_area=24, show=True) # in_area to be tuned (depending on distance between camera and board)
+        contours_out = get_contours(mask,result, in_area=24, show=True)
         
-        if direct == "left_right":  
+        if vertical_or_horizontal == "left_right":  
             direction = 0
         else:
             direction = 90
 
         if contours_out:
             x, y, _, _ = contours_out
-            if direct == "left_right":
+            if vertical_or_horizontal == "left_right":
                 if x < width_focus // 2 and y < height_focus // 2:
                     direction = 0
                 elif x > width_focus // 2 and y > height_focus // 2:
                     direction = 180
-            elif direct == "up_down":
+            elif vertical_or_horizontal == "up_down":
                 if x > width_focus // 2 and y < height_focus // 2:
                     direction = 90
                 elif x < width_focus // 2 and y > height_focus // 2:
@@ -127,20 +132,20 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         cv2.imshow('mask', mask)
         cv2.waitKey(1)
         result = cv2.bitwise_and(frame_focus, frame_focus, mask=mask)
-        contours_out = get_contours(mask,result, in_area=50, show=True) # in_area should be tuned
+        contours_out = get_contours(mask,result, in_area=50, show=True)
 
-        if direct == "left_right":  
+        if vertical_or_horizontal == "left_right":  
             direction = 0
         else:
             direction = 90
         if contours_out:
             x, y, _, _ = contours_out
-            if direct == "left_right":
+            if vertical_or_horizontal == "left_right":
                 if x < width_focus // 2:
                     direction = 0
                 elif x > width_focus // 2:
                     direction = 180
-            elif direct == "up_down":
+            elif vertical_or_horizontal == "up_down":
                 if y > height_focus // 2: 
                     direction = 90
                 elif y < height_focus // 2:
@@ -148,6 +153,7 @@ def get_ports_location(data_item, direct, output, frame_tilt, angle):
         
         return direction
 
+# Takes the data of the different pieces and converts them into virtual pieces which are then added to the board
 def data_to_board(board, data, output, frame_tilt, angle, time, contribution={}, someone_contributed=True):
 
     present_pieces = []
@@ -173,11 +179,11 @@ def data_to_board(board, data, output, frame_tilt, angle, time, contribution={},
 
             if rows == 2 and cols == 3:
                 direct = "left_right"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.FM(f"fm{ident}", origin, direction))
             elif rows == 3 and cols == 2:
                 direct = "up_down"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.FM(f"fm{ident}", origin, direction))
             else:
                 pass
@@ -249,11 +255,11 @@ def data_to_board(board, data, output, frame_tilt, angle, time, contribution={},
 
             if rows == 1:
                 direct = "left_right"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.Led(f"led{ident}", origin, direction))
             elif cols == 1:
                 direct = "up_down"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.Led(f"led{ident}", origin, direction))
             else:
                 pass
@@ -325,11 +331,11 @@ def data_to_board(board, data, output, frame_tilt, angle, time, contribution={},
 
             if rows == 2 and cols == 3:
                 direct = "left_right"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.MC(f"mc{ident}", origin, direction))
             elif rows == 3 and cols == 2:
                 direct = "up_down"
-                direction = get_ports_location(data_item, direct, output, frame_tilt, angle)
+                direction = get_piece_direction(data_item, direct, output, frame_tilt, angle)
                 present_pieces.append(pieces.MC(f"mc{ident}", origin, direction))
             else:
                 pass
@@ -348,7 +354,4 @@ def data_to_board(board, data, output, frame_tilt, angle, time, contribution={},
 
     changes = board.swap_pieces(present_pieces, time, contribution, someone_contributed)
     
-    board_image = board.show_board()
-    final_image_bgr = cv2.cvtColor(np.array(board_image), cv2.COLOR_RGB2BGR)
-    cv2.imshow("Virtual Board Newer", final_image_bgr)
     return board, changes

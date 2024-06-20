@@ -1,4 +1,10 @@
 """
+Code taken from the 2023 Learning User Skills During a Collaborative Task UROP
+GitHub: https://github.com/Julie3399/UROP2023/tree/main?tab=readme-ov-file#learning-user-skills-during-a-collaborative-task
+"""
+
+
+"""
 Hand Tracking Module
 modified from Computer Vision Zone
 Website: https://www.computervision.zone/
