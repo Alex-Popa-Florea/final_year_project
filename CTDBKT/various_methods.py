@@ -29,7 +29,6 @@ class UISTS_BKT():
         
         if self.t >= self.E_k:
             p_mastered = self.p_L * self.p_o_given_L(o_t) / self.p_o(o_t)
-            #self.H.append(p_mastered + (1 - p_mastered) * self.p_T)
             self.H.append(p_mastered)
         else:
             self.H.append(self.p_L)
@@ -607,9 +606,6 @@ class CSCCTD_BKT():
         self.o.append(o_t)
 
         if o_t == 1:
-            #self.c.append(min(c_t * 2, 1))
-            # self.c.append(c_t)
-            # self.other_c.append(1 - c_t)
             self.c.append(min(c_t * 2, 1))
             self.other_c.append(1 - min(c_t * 2, 1))
         else:
